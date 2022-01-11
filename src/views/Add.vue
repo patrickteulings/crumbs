@@ -29,6 +29,14 @@ import { defineComponent, reactive, toRefs, onMounted } from 'vue'
 import store from '@/store'
 import { ICrumb } from '@/types/CrumbType'
 import AddButton from '@/components/add/AddButton.vue'
+import { seedData } from '@/seed/seed'
+
+interface IState {
+    msg: string;
+    favourites: Array<ICrumb>,
+    crumbs: Array<ICrumb>,
+    bg: Array<ICrumb>
+}
 
 export default defineComponent({
   name: 'Add',
@@ -39,10 +47,9 @@ export default defineComponent({
     msg: String
   },
   setup () {
-    const state: any = reactive({
+    const state: IState = reactive({
       msg: '',
-      labels: ['tobacco', 'sweets', 'hash', 'tobacco'],
-      favourites: [{ id: 'adas', label: 'tobacco', date: new Date(), amount: 14 }, { id: 'adfdsfs', label: 'sweets', date: new Date(), amount: 1.65 }, { id: 'adfdsfs', label: 'hash', date: new Date(), amount: 12 }],
+      favourites: seedData,
       crumbs: store.getters['crumbStore/getAllCrumbs'],
       bg: store.getters['crumbStore/bl']
     })
