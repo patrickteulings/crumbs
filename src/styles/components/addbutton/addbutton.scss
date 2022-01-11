@@ -1,0 +1,146 @@
+.disable-select {
+  user-select: none; /* supported by Chrome and Opera */
+ -webkit-user-select: none; /* Safari */
+ -khtml-user-select: none; /* Konqueror HTML */
+ -moz-user-select: none; /* Firefox */
+ -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.most-used-button {
+  height: 60px;
+  border-radius: 30px;
+  text-align: left;
+  color: white;
+  background-color: #BF87B3; // #1FC8A9;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 22px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 60px;
+  -webkit-touch-callout: none;
+
+  &__inner {
+    display: flex;
+    padding: 0rem 0 0rem 2rem;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+  }
+
+  .mub-total {
+    display: flex;
+    align-items: flex-start;
+    pointer-events: none;
+
+    &__cents {
+      font-size: 12px;
+      margin-left: 1ch;
+    }
+  }
+
+  .mub-label{
+    pointer-events: none;
+  }
+
+  .mub-add {
+    position: absolute;
+    border-radius: 0px 30px 30px 30px;
+    right: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    background: #AC639C;
+    align-self: flex-end;
+  }
+}
+
+.most-used-button__extended {
+  background-color: #EDDDEA;
+  border-radius: 5px 5px 30px 5px;
+  margin-bottom: 2rem;
+  padding: 5rem 1.5rem 2rem;
+  margin-top: -3rem;
+  text-align: left;
+
+  .extended-input-row {
+    display: flex;
+    align-items: center;
+
+    input, button {
+      display: block;
+    }
+  }
+
+  .extended__type {
+    font-family: $lato;
+    font-weight: 600;
+    color: black;
+    opacity: 0.6;
+    margin-right: 0.5rem;
+  }
+
+  .extended__amount {
+    border: 0;
+    border-radius: 5px 5px 5px 5px;
+    height: 40px;
+    padding: 0 1rem;
+    font-family: $lato;
+    font-size: 14px;
+    width: 40%;
+
+    &.default {
+      color:  #999;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .extended__button {
+    background: #AC639C;
+    height: 40px;
+    border: none;
+    border-radius: 10px 5px 5px 5px;
+    margin-left: 8px;
+    padding: 0.5rem 1rem;
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 900;
+    color: #fff;
+  }
+
+  .extended__date-wrapper {
+    background: rgba(white, 0.2);
+    background-color: darken(#EDDDEA, 10%);
+    width: calc(100% + 3rem);
+    border-bottom-right-radius: 30px;
+    // transform: translateX(-1.5rem);
+    margin: 2rem 0 -2rem -1.5rem;
+    height: 45px;
+    display: flex;
+    align-items: center;
+
+    .extended__date {
+      font-family: $lato;
+      font-size: 10px;
+      margin-left: 2.8rem;
+    }
+  }
+
+  label {
+    font-family: $lato;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-left: 1rem;
+  }
+}

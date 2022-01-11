@@ -1,7 +1,23 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="wrapper">
+    <div class="hompepage-dashboard-summary">
+      <h1>Today's Crap total: <span class="momey">€12,45</span></h1>
+    </div>
+    <div class="homepage-most-used">
+      <div class="most-used-buttons">
+        <div class="most-used-buttons__inner">
+          <div class="most-used-button">
+            tobacco
+          </div>
+          <div class="most-used-button">
+            sweets
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home">
+      <HelloWorld msg="Welcome t  o Your Vue.js + TypeScript App"/>
+    </div>
   </div>
 </template>
 
@@ -10,9 +26,18 @@ import { Options, Vue } from 'vue-class-component'
 import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
 
 @Options({
+  name: 'Home',
   components: {
     HelloWorld
   }
 })
 export default class Home extends Vue {}
 </script>
+<style lang="scss">
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: #BE89A1;
+}
+
+</style>
