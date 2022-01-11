@@ -4,10 +4,10 @@
       <span class="mub-label disable-select">{{ labelData.label }} - </span>
       <div class="mub-total disable-select"><span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span></div>
       <div class="mub-add disable-select"
-        @mousedown="handleDown($event, labelData)"
-        @mouseup="handleUp($event, labelData)"
-        @touchstart="handleDown($event, labelData)"
-        @touchend="handleUp($event, labelData)">
+        @mousedown="handleDown($event)"
+        @mouseup="handleUp($event)"
+        @touchstart="handleDown($event)"
+        @touchend="handleUp($event)">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div>
     </div>
   </div>
@@ -25,12 +25,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted, SetupContext } from 'vue'
+import { defineComponent, reactive, toRefs, onMounted, PropType } from 'vue'
 import store from '@/store'
 import { ICrumb } from '@/types/CrumbType'
-import { ICrumbs } from '@/types/CrumbsType'
-// import { ICrumbs } from '@/types/CrumbsType'
-
 
 
 interface IState {
@@ -48,7 +45,7 @@ export default defineComponent({
   emits: ['clicked'],
   props: {
     buttonData: {
-      type: Object,
+      type: Object as PropType<ICrumb>,
       required: true
     },
     labelTotal: {
@@ -56,7 +53,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props: any, { emit }) {
+  setup (props: any, { emit }): Record<string, unknown> {
     const state: IState = reactive({
       labelTemplate: { ...props.buttonData },
       labelData: props.buttonData,
@@ -93,7 +90,7 @@ export default defineComponent({
     let startMouseDownTimer = 0
     let stopMouseDownTimer = 0
 
-    const handleDown = (event: MouseEvent | TouchEvent, crumb: ICrumb): void => {
+    const handleDown = (event: MouseEvent | TouchEvent): void => {
       startMouseDownTimer = performance.now()
       event.preventDefault()
       timer = setTimeout(() => {
@@ -101,7 +98,7 @@ export default defineComponent({
       }, 500)
     }
 
-    const handleUp = (event: MouseEvent | TouchEvent, crumb: ICrumb): void => {
+    const handleUp = (event: MouseEvent | TouchEvent): void => {
       event.preventDefault()
       clearTimeout(timer)
       isClick()
