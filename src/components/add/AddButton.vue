@@ -52,7 +52,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props: any, { emit }): Record<string, unknown> {
+  setup (props: any, { emit }) {
     const state: IState = reactive({
       labelTemplate: { ...props.buttonData },
       labelData: props.buttonData,

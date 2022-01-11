@@ -1,7 +1,7 @@
 export interface ICrumb {
   id: string;
   label: string;
-  date?: Date;
+  date?: Date | any;
   categoryID: string;
   amount: number;
 }

@@ -16,7 +16,7 @@
         </div>
         <div class="crumbs" style="background: #ff9900">
           <div> hellup</div>
-          <div v-for="crumb in tob()" :key="crumb.label">
+          <div v-for="crumb in filterCrumbs()" :key="crumb.label">
             'crumbs' {{crumb.label}} - {{crumb.amount}}
           </div>
         </div>
@@ -59,11 +59,7 @@ export default defineComponent({
       store.dispatch('crumbStore/addCrumb', el)
     }
 
-    const tob = () => {
-      const map1 = state.crumbs.map((el:ICrumb) => {
-        if (el.label === 'tobacco') return el
-      })
-
+    const filterCrumbs = () => {
       const filteredArray = state.crumbs.filter(function (el:ICrumb) {
         return el.label === 'tobacco'
       })
@@ -80,7 +76,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       handleClick,
-      tob
+      filterCrumbs
     }
   }
 })
