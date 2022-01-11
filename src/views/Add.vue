@@ -1,23 +1,18 @@
 <template>
   <div class="wrapper">
     <div class="add">
-      <h1>Add</h1>{{msg}}
+      <h1>Add</h1>
         <div class="most-used">
           <div class="most-used-buttons">
             <div class="most-used-buttons__inner">
-                <AddButton v-for="favourite in favourites" :key="favourite.id" :buttonData="favourite" :labelTotal="10" v-on:clicked="handleClick"/>
+                <AddButton v-for="favourite in favourites" :key="favourite.id" :buttonData="favourite" :labelTotal="10"/>
             </div>
           </div>
         </div>
         <div class="crumbs">
-          <div v-for="crumb in crumbs" :key="crumb.id">
-            {{crumb.label}} -- {{crumb.amount}}
-          </div>
-        </div>
-        <div class="crumbs" style="background: #ff9900">
           <div> hellup</div>
-          <div v-for="crumb in filterCrumbs()" :key="crumb.label">
-            'crumbs' {{crumb.label}} - {{crumb.amount}}
+          <div v-for="crumb in filteredCrumbs()" :key="crumb.label" class="crumb__item">
+            {{crumb.label}} - {{crumb.amount}} - {{crumb.date.toLocaleDateString()}} -- {{crumb.date.toLocaleTimeString()}}
           </div>
         </div>
     </div>
@@ -32,10 +27,8 @@ import AddButton from '@/components/add/AddButton.vue'
 import { seedData } from '@/seed/seed'
 
 interface IState {
-    msg: string;
-    favourites: Array<ICrumb>,
-    crumbs: Array<ICrumb>,
-    bg: Array<ICrumb>
+  favourites: Array<ICrumb>;
+  crumbs: Array<ICrumb>;
 }
 
 export default defineComponent({
@@ -43,23 +36,13 @@ export default defineComponent({
   components: {
     AddButton
   },
-  props: {
-    msg: String
-  },
   setup () {
     const state: IState = reactive({
-      msg: '',
       favourites: seedData,
-      crumbs: store.getters['crumbStore/getAllCrumbs'],
-      bg: store.getters['crumbStore/bl']
+      crumbs: store.getters['crumbStore/getAllCrumbs']
     })
 
-    const handleClick = (el: ICrumb, ell: any) => {
-      console.log('hier ook', el, ell)
-      store.dispatch('crumbStore/addCrumb', el)
-    }
-
-    const filterCrumbs = () => {
+    const filteredCrumbs = () => {
       const filteredArray = state.crumbs.filter(function (el:ICrumb) {
         return el.label === 'tobacco'
       })
@@ -68,15 +51,12 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      setTimeout(() => {
-        store.dispatch('crumbStore/loadCrumbs')
-      }, 2000)
+      store.dispatch('crumbStore/loadCrumbs')
     })
 
     return {
       ...toRefs(state),
-      handleClick,
-      filterCrumbs
+      filteredCrumbs
     }
   }
 })
@@ -109,6 +89,20 @@ h1 {
   font-style: italic;
   font-weight: 900;
   font-size: 24px;
+}
+
+.crumbs {
+  padding: 1rem;
+  .crumb__item {
+    background: #fbfbfb;
+    padding: 1rem;
+    margin-bottom: 0.2rem;
+    border-radius: 3px;
+
+    &.color {
+      background: #333;
+    }
+  }
 }
 
 .most-used-buttons {

@@ -8,7 +8,10 @@
         @mouseup="handleUp($event)"
         @touchstart="handleDown($event)"
         @touchend="handleUp($event)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div>
+        <span v-if="!isAdding">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </span>
+      </div>
     </div>
   </div>
   <div v-if="extended" class="most-used-button__extended">
@@ -29,13 +32,28 @@ import { defineComponent, reactive, toRefs, onMounted, PropType } from 'vue'
 import store from '@/store'
 import { ICrumb } from '@/types/CrumbType'
 
+interface CrumbType {
+  id: string;
+  label: string;
+  date?: string;
+  categoryID: string;
+  amount: number;
+}
+
 
 interface IState {
+  label: CrumbType;
   labelData: ICrumb;
   labelTemplate: ICrumb;
   labelTotal: number;
   crumbs: Array<ICrumb>;
   extended: boolean;
+  isAdding: boolean;
+  isGetting: boolean;
+}
+
+interface Bla {
+  item: Date;
 }
 
 
@@ -52,13 +70,16 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props: any, { emit }) {
+  setup (props) {
     const state: IState = reactive({
+      label: { date: new Date().toString(), id: 'hoi', label: 'tabak', categoryID: '12', amount: 23 },
       labelTemplate: { ...props.buttonData },
       labelData: props.buttonData,
       labelTotal: props.labelTotal,
       crumbs: store.getters['crumbStore/getAllCrumbs'],
-      extended: false
+      extended: false,
+      isAdding: false,
+      isGetting: true
     })
 
     const getTotalCosts = (label: string): Array<string> => {
@@ -77,12 +98,24 @@ export default defineComponent({
       return r.toFixed(2)
     }
 
-    const handleClick = (e: ICrumb): void => {
-      emit('clicked', e)
+    const handleClick = (crumb: ICrumb): void => {
+      // emit('clicked', e)
+      saveNewCrumb(crumb)
     }
 
     const handleExtendedClick = (crumb: ICrumb): void => {
-      emit('clicked', crumb)
+      // emit('clicked', crumb)
+      saveNewCrumb(crumb)
+    }
+
+    const saveNewCrumb = (crumb: ICrumb) => {
+      state.isAdding = true
+      crumb.date = (crumb.date) ? new Date(crumb.date) : new Date()
+      console.log('hier ooooook', crumb)
+      store.dispatch('crumbStore/addCrumb', crumb).then(() => {
+        console.log('added')
+        state.isAdding = false
+      })
     }
 
     let timer = 0

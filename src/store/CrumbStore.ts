@@ -21,12 +21,14 @@ export const CrumbStore = {
       state.crumb = crumb
     },
     ADD_CRUMB: (state: any, crumb: ICrumb): void => {
+      console.log(crumb.date)
       state.crumbs.push(crumb)
       // state.crumbs.forEach((el: any) => {
       //   console.log(el.label)
       // })
     },
     ADD_INITIAL_CRUMBS: (state: any, crumb: ICrumb): void => {
+      crumb.date = (crumb.date !== undefined) ? crumb.date.toDate() : new Date()
       state.crumbs.push(crumb)
     }
   },
@@ -44,10 +46,11 @@ export const CrumbStore = {
       const userID = (rootState.userStore.user.uid !== undefined) ? rootState.userStore.user.uid : ''
       const docRef: DocumentReference = await addDoc(collection(db, 'users', userID, 'crumbs'), crumbPayload)
       const doc: DocumentSnapshot = await getDoc(docRef)
-
+      console.log(doc.data())
       // SAVE THE FIRABSE ID INSIDE THE CRUMB OBJECT FOR EASY REFERENCE
       const crumb: ICrumb = doc.data() as ICrumb
       crumb.id = doc.id
+      crumb.date = crumb.date.toDate()
 
       commit(ADD_CRUMB, crumb)
       commit(SET_CRUMB, crumb)
@@ -57,7 +60,7 @@ export const CrumbStore = {
 
     // LOADS ALL CRUMBS
 
-    loadCrumbs: (context: any): void => {
+    loadCrumbs: (context: ActionContext<any, any>): void => {
       const userID = (context.rootState.userStore.user.uid !== undefined) ? context.rootState.userStore.user.uid : ''
       getDocs(collection(db, 'users', userID, 'crumbs')).then((result) => {
         result.forEach((doc: QueryDocumentSnapshot) => {
@@ -67,14 +70,8 @@ export const CrumbStore = {
     }
   },
   getters: {
-    getCrumb: (state: any): ICrumb => state.crumb,
-    getAllCrumbs: (state: any): Array<ICrumb> => state.crumbs,
-    bl: (state: any): any => {
-      const filteredArray = [...state.crumbs].filter(function (el:ICrumb) {
-        return el.label === 'tobacco'
-      })
-      return filteredArray
-    }
+    getCrumb: (state: Context): ICrumb => state.crumb,
+    getAllCrumbs: (state: any): Array<ICrumb> => state.crumbs
   }
 }
 
