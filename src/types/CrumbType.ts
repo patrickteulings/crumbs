@@ -5,5 +5,7 @@ export interface ICrumb {
   categoryID: string;
   amount: number;
   colour?: string;
-  max?: number
+  target?: number;
+  increase?: boolean;
+  timespan?: string;
 }

@@ -1,7 +1,7 @@
 <template>
-  <div class="most-used-button" :style="getColorShema()">
+  <div class="most-used-button" :style="getButtonColor()">
     <div class="most-used-button__inner">
-      <span class="mub-progress" :style="getTotalPercentage()"></span>
+      <span class="mub-progress" :style="[getTotalPercentage(), getProgressColor()]"></span>
       <span class="mub-label disable-select">{{ labelData.label }} - </span>
       <div class="mub-total disable-select"><span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span></div>
       <div class="mub-add disable-select"
@@ -12,7 +12,7 @@
         <span v-if="!isAdding">
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </span>
-        <span class="spinner-wrapper">
+        <span class="spinner-wrapper" v-if="isAdding">
           <svg class="spinner" viewBox="0 0 50 50">
             <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="2"></circle>
           </svg>
@@ -91,25 +91,24 @@ export default defineComponent({
         return el.label === label
       })
 
-      console.log(state.labelTemplate.max)
-
       const newTotal = filteredArray.reduce((accumulator: number, current: ICrumb) => accumulator + current.amount, 0)
       return [round(newTotal).split('.')[0], round(newTotal).split('.')[1]]
     }
 
     const getTotalPercentage = () => {
-      const max = (state.labelTemplate.max || 100)
-      console.log(state.labelTemplate.label, max)
-      // Progressbar widt
+      const max = (state.labelTemplate.target || 100)
+
       const filteredArray = state.crumbs.filter(function (el:ICrumb):boolean {
         return el.label === state.labelTemplate.label
       })
 
       const newTotal = filteredArray.reduce((accumulator: number, current: ICrumb) => accumulator + current.amount, 0)
+      console.log(state.labelTemplate.label, state.labelTemplate.target, newTotal)
+      console.log(state.labelTemplate.label, newTotal / max)
       const percentageOfTarget = (newTotal / max) * 100
 
       return {
-        width: `${percentageOfTarget}px`
+        width: `${percentageOfTarget}%`
       }
     }
 
@@ -124,7 +123,6 @@ export default defineComponent({
     }
 
     const handleExtendedClick = (crumb: ICrumb): void => {
-      // emit('clicked', crumb)
       saveNewCrumb(crumb)
     }
 
@@ -138,28 +136,27 @@ export default defineComponent({
       })
     }
 
-    const { hexToHSL, newHexToHSL, hexToRgb, RGBToHSL } = useColors()
+    // -------------------------------- //
+    // COLOR FUNCTIONS
+    // -------------------------------- //
 
-    const getColorShema = (): Record<string, unknown> => {
-      let hslValue = hexToHSL(state.labelTemplate.colour ? state.labelTemplate.colour : 'ff9900')
-      hslValue = hexToHSL('FF9900')
+    const { hexToRGB, rgbToHSL, hexToHSL } = useColors()
 
-      const newHex = newHexToHSL('FF9900')
-      const rgb = hexToRgb(state.labelTemplate.colour)
-      const { h, s, l } = RGBToHSL(rgb.r, rgb.g, rgb.b)
-
-      // console.log(hex, `hsl(${hslValue.h}, ${hslValue.s}, ${hslValue.l})`)
+    const getButtonColor = (): Record<string, unknown> => {
+      const { h, s, l } = hexToHSL(state.labelTemplate.colour)
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + l + '%)' }
-      // return { backgroundColor: 'hsl(20, 30%, 40%)' }
-      // #${hexToHSL(state.labelTemplate.colour ? state.labelTemplate.colour : 'ff9900')}` }
     }
 
     const getAddButtonColor = () => {
-      const rgb = hexToRgb(state.labelTemplate.colour)
-      const { h, s, l } = RGBToHSL(rgb.r, rgb.g, rgb.b)
-
+      const { h, s, l } = hexToHSL(state.labelTemplate.colour)
       const lCustom = l - 10
+
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l - 20) + '%)' }
+    }
+
+    const getProgressColor = () => {
+      const { h, s, l } = hexToHSL(state.labelTemplate.colour)
+      return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l + 15) + '%)' }
     }
 
     let timer = 0
@@ -208,8 +205,9 @@ export default defineComponent({
       handleExtendedClick,
       handleDown,
       handleUp,
-      getColorShema,
+      getButtonColor,
       getAddButtonColor,
+      getProgressColor,
       getTotalPercentage
     }
   }
