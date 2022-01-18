@@ -2,6 +2,12 @@ import { IUser } from '@/types/UserType'
 import { reactive } from 'vue'
 
 const SET_USER = 'SET_USER'
+const SET_NAME = 'SET_NAME'
+
+interface IState {
+  user: IUser | null;
+  name: string;
+}
 
 export const UserStore = {
   namespaced: true,
@@ -10,7 +16,6 @@ export const UserStore = {
   }),
   mutations: {
     SET_USER: (state: any, user: IUser): void => {
-      console.log('user', user)
       state.user = user
     }
   },
@@ -20,6 +25,6 @@ export const UserStore = {
     }
   },
   getters: {
-    getUser: (state: any): IUser => state.user
+    getUser: (state: any): IUser => { return state.user }
   }
 }

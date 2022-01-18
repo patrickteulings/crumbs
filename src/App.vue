@@ -2,31 +2,38 @@
   <div v-if='loading'>
     <div class="splashscreen">SPLASH</div>
   </div>
+  <User></User>
   <div id="nav">
     <router-link to="/home">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/add">Add</router-link> |
     <router-link to="/login">Login</router-link>
   </div>
-  <div><img :src="(user) ? user.photoURL : ''"/></div>
   <router-view v-slot="{ Component }">
     <transition name="slide" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
       <component :is="Component" />
     </transition>
   </router-view>
+  <FloatingNavBar></FloatingNavBar>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, ref } from 'vue'
+import { defineComponent, reactive, ref, toRefs, onMounted, computed } from 'vue'
+import User from '@/components/add/User.vue'
 import store from './store'
+import FloatingNavBar from './components/navigation/FloatingNavBar.vue'
 import useAuth from './use/auth/useAuth'
 import gsap from 'gsap'
 
 export default defineComponent({
   name: 'App',
+  components: {
+    User,
+    FloatingNavBar
+  },
   setup () {
     const state: any = reactive({
-      stateUser: store.getters['userStore/getUser']
+      stateUser: computed(() => store.getters['userStore/getUser'])
     })
 
     const { user, loading, error } = useAuth()
@@ -62,6 +69,10 @@ export default defineComponent({
       })
     }
 
+    onMounted(() => {
+      console.log('')
+    })
+
     return {
       ...toRefs(state),
       user,
@@ -79,13 +90,6 @@ export default defineComponent({
 
 <style lang="scss" src='./styles/styles.scss'>
 
-$abril: 'Abril Fatface', cursive;
-$playfair: 'Playfair Display', serif;
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
 
 .slide-enter-active {
   transition: all 0.3s ease-out;
@@ -115,11 +119,6 @@ html, body {
   left: 0;
 }
 
-.wrapper {
-  position: absolute;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -128,13 +127,6 @@ html, body {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
 #nav {

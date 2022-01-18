@@ -4,4 +4,6 @@ export interface ICrumb {
   date?: Date | any;
   categoryID: string;
   amount: number;
+  colour?: string;
+  max?: number
 }

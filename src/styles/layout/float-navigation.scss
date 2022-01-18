@@ -1,0 +1,37 @@
+.floatNav-wrapper {
+  position: fixed;
+  bottom: 3rem;
+
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  z-index: 4;
+}
+
+.floatNav {
+  width: 90%;
+  height: 74px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+
+  &__inner {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
+
+  &__button {
+    background: none;
+    border: 0;
+
+    svg {
+      color: #BF008A;
+    }
+  }
+}
+

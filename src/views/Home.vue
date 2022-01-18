@@ -33,11 +33,6 @@ import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
 })
 export default class Home extends Vue {}
 </script>
-<style lang="scss">
-.wrapper {
-  width: 100%;
-  min-height: 100vh;
-  background: #BE89A1;
-}
 
+<style lang="scss">
 </style>

@@ -1,19 +1,22 @@
+// Core
 import { toRefs, reactive } from 'vue'
-import router from './../../router/index'
-
-import { fire } from '@/config/firebaseConfigTypeScript'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import router from '@/router/index'
 import store from '@/store'
+
+// USE
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+// Global Types
 import { IUser } from '@/types/UserType'
 
+// Local Types
 interface IState {
   user: IUser | null;
   loading: boolean;
   error: boolean | null;
-
 }
 
-export default function () {
+export default function (): Record<string, unknown> {
   // our reactive properties...
   const state: IState = reactive({
     user: null,
@@ -27,7 +30,7 @@ export default function () {
 
   const auth = getAuth()
 
-  onAuthStateChanged(auth, (_user: any) => {
+  onAuthStateChanged(auth, (_user: any): void => {
     if (_user) {
       const user: IUser = {
         displayName: _user.displayName,
@@ -37,7 +40,8 @@ export default function () {
       }
       state.user = user
       store.dispatch('userStore/setUser', user)
-      console.log('setting user', user)
+      store.dispatch('crumbStore/loadCrumbTemplates')
+      store.dispatch('crumbStore/loadCrumbs')
       router.push('/add')
       // ...
     } else {

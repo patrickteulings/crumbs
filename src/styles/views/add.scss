@@ -1,0 +1,23 @@
+// BASE
+.page-add {
+  .wrapper__inner {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+// Elements  / componentens
+.page-add {
+  h1 {
+    font-family: $lato;
+    font-weight: 900;
+    font-size: 32px;
+    padding-bottom: 2.5rem;
+  }
+  .add {
+    align-self: flex-end;
+    width: 100%;
+    padding-bottom: 30vh;
+  }
+}
