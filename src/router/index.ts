@@ -27,7 +27,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
+  },
+  {
+    path: '/editlabeltemplate/:id',
+    name: 'EditLabelTemplate',
+    component: () => import(/* webpackChunkName: "about" */ '../views/EditLabelTemplate.vue')
   }
+
 ]
 
 const router = createRouter({

@@ -67,11 +67,14 @@ export const CrumbStore = {
         })
       })
     },
+
     loadCrumbTemplates: (context: ActionContext<any, any>): void => {
       const userID = (context.rootState.userStore.user.uid !== undefined) ? context.rootState.userStore.user.uid : ''
       getDocs(collection(db, 'users', userID, 'crumbTemplates')).then((result) => {
         result.forEach((doc: QueryDocumentSnapshot) => {
-          context.commit(ADD_INITIAL_CRUMBTEMPLATES, doc.data())
+          const crumbTemplate = doc.data()
+          crumbTemplate.id = doc.id
+          context.commit(ADD_INITIAL_CRUMBTEMPLATES, crumbTemplate)
         })
       })
     }
