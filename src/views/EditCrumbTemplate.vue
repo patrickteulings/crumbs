@@ -3,6 +3,7 @@
     <div class="wrapper__inner">
       <div class="editLabelTemplate">
         <h1>Crumb Template</h1>
+        <EditCrumb :crumbTemplate="currentTemplate"></EditCrumb>
         <div v-for="crumb in crumbTemplates" :key="crumb.label">
           {{crumb.label}} <br>
           {{crumb.colour}} <br>
@@ -20,12 +21,16 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { Crumb } from '@/types/Crumb'
+import EditCrumb from '@/components/crumb/EditCrumb.vue'
 import store from '@/store'
+import { CrumbTemplate } from '@/types/CrumbTemplate'
 
 
 export default defineComponent({
   name: 'EditCrumbTemplate',
+  components: {
+    EditCrumb
+  },
   setup () {
     const state = reactive({
       route: useRoute(),
@@ -35,8 +40,8 @@ export default defineComponent({
 
     const route = useRoute()
 
-    const getSelectedCrumb = (): Record<string, unknown> => {
-      const el = state.crumbTemplates.find((item: Crumb) => item.id === state.route.params.id)
+    const getSelectedCrumb = (): CrumbTemplate => {
+      const el = state.crumbTemplates.find((item: CrumbTemplate) => item.id === state.route.params.id)
       return el
     }
 

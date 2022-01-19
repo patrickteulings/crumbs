@@ -24,28 +24,38 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, ComputedRef, toRefs, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 import store from '@/store'
+import { Crumbs } from '@/types/Crumbs'
+
+interface State {
+  crumbTemplates: ComputedRef<Crumbs>
+}
 
 export default defineComponent({
   name: 'FloatingNavBar',
   components: {
   },
   setup () {
-    const state: any = {
-      count: 0,
-      route: useRoute(),
-      crumbTemplates: computed(() => store.getters['crumbStore/getCrumbTemplates'])
+    const state: State = {
+      crumbTemplates: computed((): Crumbs => store.getters['crumbStore/getCrumbTemplates'])
     }
 
     const route = useRoute()
 
+    // ----------------------------------------------------
+    // NAVIGATION TRIGGERS
+    // ----------------------------------------------------
+
     const jumpToPage = (page: string): void => {
       router.push(page)
-      console.log('hier', state.crumbTemplates)
     }
+
+    onMounted(() => {
+      console.log(state)
+    })
 
     return {
       ...toRefs(state),
