@@ -1,5 +1,3 @@
-import { toRefs } from 'vue'
-
 export const useColors = (): any => {
   /**
    * Convert a Hex to RGB Object.

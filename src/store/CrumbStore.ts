@@ -1,4 +1,4 @@
-import { ICrumb } from '@/types/CrumbType'
+import { Crumb } from '@/types/Crumb'
 import { db } from '@/config/firebaseConfigTypeScript'
 import { reactive } from 'vue'
 import { getDoc, getDocs, setDoc, addDoc, collection, QueryDocumentSnapshot, DocumentSnapshot, DocumentReference } from 'firebase/firestore'
@@ -19,35 +19,35 @@ export const CrumbStore = {
   }),
 
   mutations: {
-    SET_CURRENT_CRUMB: (state: any, crumb: ICrumb): void => {
+    SET_CURRENT_CRUMB: (state: any, crumb: Crumb): void => {
       state.crumb = crumb
     },
-    ADD_CRUMB: (state: any, crumb: ICrumb): void => {
+    ADD_CRUMB: (state: any, crumb: Crumb): void => {
       state.crumbs.push(crumb)
     },
-    ADD_INITIAL_CRUMBS: (state: any, crumb: ICrumb): void => {
+    ADD_INITIAL_CRUMBS: (state: any, crumb: Crumb): void => {
       crumb.date = (crumb.date !== undefined) ? crumb.date.toDate() : new Date()
       state.crumbs.push(crumb)
     },
-    ADD_INITIAL_CRUMBTEMPLATES: (state: any, crumbTemplate: ICrumb): void => {
+    ADD_INITIAL_CRUMBTEMPLATES: (state: any, crumbTemplate: Crumb): void => {
       state.crumbTemplates.push(crumbTemplate)
     }
   },
 
   actions: {
-    setCurrentCrumb: (context: any, crumb: ICrumb): void => {
+    setCurrentCrumb: (context: any, crumb: Crumb): void => {
       context.commit(SET_CURRENT_CRUMB, crumb)
     },
 
     // ADD CRUMB TO DATABASE
-    async addCrumb ({ commit, rootState }: ActionContext<any, any>, crumbPayload: ICrumb): Promise<void> {
+    async addCrumb ({ commit, rootState }: ActionContext<any, any>, crumbPayload: Crumb): Promise<void> {
       const userID = (rootState.userStore.user.uid !== undefined) ? rootState.userStore.user.uid : ''
 
       const docRef: DocumentReference = await addDoc(collection(db, 'users', userID, 'crumbs'), crumbPayload)
       const doc: DocumentSnapshot = await getDoc(docRef)
 
       // SAVE THE FIRABSE-ID INSIDE THE CRUMB OBJECT FOR EASY REFERENCE
-      const crumb: ICrumb = doc.data() as ICrumb
+      const crumb: Crumb = doc.data() as Crumb
       crumb.id = doc.id
       crumb.date = crumb.date.toDate()
 
@@ -81,14 +81,14 @@ export const CrumbStore = {
 
   },
   getters: {
-    getCrumb: (state: Context): ICrumb => state.crumb,
-    getAllCrumbs: (state: any): Array<ICrumb> => state.crumbs,
-    getCrumbTemplates: (state: any) : Array<ICrumb> => state.crumbTemplates
+    getCrumb: (state: Context): Crumb => state.crumb,
+    getAllCrumbs: (state: any): Array<Crumb> => state.crumbs,
+    getCrumbTemplates: (state: any) : Array<Crumb> => state.crumbTemplates
   }
 }
 
 // const converter = {
-//   toFirestore: (data: ICrumb) => data,
+//   toFirestore: (data: Crumb) => data,
 //   fromFirestore: (snap: QueryDocumentSnapshot) =>
-//     snap.data() as ICrumb
+//     snap.data() as Crumb
 // }

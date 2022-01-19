@@ -24,15 +24,15 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted, computed } from 'vue'
 import store from '@/store'
-import { ICrumb } from '@/types/CrumbType'
+import { Crumb } from '@/types/Crumb'
 import AddButton from '@/components/add/AddButton.vue'
 import { seedData } from '@/seed/seed'
 import { IUser } from '@/types/UserType'
 
 interface IState {
-  favourites: Array<ICrumb>;
-  crumbs: Array<ICrumb>;
-  crumbTemplates: Array<ICrumb>;
+  favourites: Array<Crumb>;
+  crumbs: Array<Crumb>;
+  crumbTemplates: Array<Crumb>;
   user: IUser;
 }
 
@@ -50,7 +50,7 @@ export default defineComponent({
     })
 
     const filteredCrumbs = () => {
-      const filteredArray = state.crumbs.filter(function (el:ICrumb) {
+      const filteredArray = state.crumbs.filter(function (el:Crumb) {
         return el.label === 'tobacco'
       })
 

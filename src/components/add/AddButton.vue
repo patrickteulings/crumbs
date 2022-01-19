@@ -36,25 +36,15 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted, PropType, computed } from 'vue'
 import store from '@/store'
-import { ICrumb } from '@/types/CrumbType'
+import { Crumb } from '@/types/Crumb'
 import { useColors } from '@/use/colors/useColors'
 
-interface CrumbType {
-  id: string;
-  label: string;
-  date?: string;
-  categoryID: string;
-  amount: number;
-  colour: string;
-}
-
-
 interface IState {
-  label: CrumbType;
-  labelData: ICrumb;
-  labelTemplate: ICrumb;
+  label: Crumb;
+  labelData: Crumb;
+  labelTemplate: Crumb;
   labelTotal: number;
-  crumbs: Array<ICrumb>;
+  crumbs: Array<Crumb>;
   extended: boolean;
   isAdding: boolean;
   isGetting: boolean;
@@ -65,7 +55,7 @@ export default defineComponent({
   emits: ['clicked'],
   props: {
     buttonData: {
-      type: Object as PropType<ICrumb>,
+      type: Object as PropType<Crumb>,
       required: true
     },
     labelTotal: {
@@ -87,22 +77,22 @@ export default defineComponent({
     })
 
     const getTotalCosts = (label: string): Array<string> => {
-      const filteredArray = state.crumbs.filter(function (el:ICrumb):boolean {
+      const filteredArray = state.crumbs.filter(function (el:Crumb):boolean {
         return el.label === label
       })
 
-      const newTotal = filteredArray.reduce((accumulator: number, current: ICrumb) => accumulator + current.amount, 0)
+      const newTotal = filteredArray.reduce((accumulator: number, current: Crumb) => accumulator + current.amount, 0)
       return [round(newTotal).split('.')[0], round(newTotal).split('.')[1]]
     }
 
     const getTotalPercentage = () => {
       const max = (state.labelTemplate.target || 100)
 
-      const filteredArray = state.crumbs.filter(function (el:ICrumb):boolean {
+      const filteredArray = state.crumbs.filter(function (el:Crumb):boolean {
         return el.label === state.labelTemplate.label
       })
 
-      const newTotal = filteredArray.reduce((accumulator: number, current: ICrumb) => accumulator + current.amount, 0)
+      const newTotal = filteredArray.reduce((accumulator: number, current: Crumb) => accumulator + current.amount, 0)
       console.log(state.labelTemplate.label, state.labelTemplate.target, newTotal)
       console.log(state.labelTemplate.label, newTotal / max)
       const percentageOfTarget = (newTotal / max) * 100
@@ -118,15 +108,15 @@ export default defineComponent({
       return r.toFixed(2)
     }
 
-    const handleClick = (crumb: ICrumb): void => {
+    const handleClick = (crumb: Crumb): void => {
       saveNewCrumb(crumb)
     }
 
-    const handleExtendedClick = (crumb: ICrumb): void => {
+    const handleExtendedClick = (crumb: Crumb): void => {
       saveNewCrumb(crumb)
     }
 
-    const saveNewCrumb = (crumb: ICrumb) => {
+    const saveNewCrumb = (crumb: Crumb) => {
       state.isAdding = true
       crumb.date = new Date()
 
