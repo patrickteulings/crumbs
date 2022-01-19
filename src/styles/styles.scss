@@ -1,10 +1,12 @@
 @import
   "abstract/reset",
   "abstract/disable-select",
-  "abstract/fonts";
+  "abstract/fonts",
+  "abstract/mixins/transitions";
 
 @import
   "components/addbutton/addbutton",
+  "components/editcrumb/editcrumb.scss",
   "components/avatar/avatar";
 
 @import
@@ -15,7 +17,7 @@
 
 @import
   "views/add",
-  "views/editLabelTemplate",
+  "views/editCrumbTemplate",
   "views/loginPage",
   "views/splashscreen";
 

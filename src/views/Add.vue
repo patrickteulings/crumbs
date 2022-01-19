@@ -3,6 +3,7 @@
     <div class="wrapper__inner">
     <div class="add">
       <h1>Hi {{user.displayName}}🤗</h1>
+      <h2>Your speeddial</h2>
         <div class="most-used">
           <div class="most-used-buttons">
             <div class="most-used-buttons__inner">

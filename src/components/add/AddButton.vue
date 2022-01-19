@@ -1,8 +1,8 @@
 <template>
-  <div class="most-used-button" :style="getButtonColor()">
+  <div ref="mostUsedButton" class="most-used-button" :style="getButtonColor()">
     <div class="most-used-button__inner">
       <span class="mub-progress" :style="[getTotalPercentage(), getProgressColor()]"></span>
-      <span class="mub-label disable-select">{{ labelData.label }} - </span>
+      <span class="mub-label disable-select" :style="getTextLabelColor()">{{ labelData.label }} - </span>
       <div class="mub-total disable-select"><span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span></div>
       <div class="mub-add disable-select"
         @mousedown="handleDown($event)"
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted, PropType, computed } from 'vue'
+import { defineComponent, reactive, toRefs, onMounted, PropType, computed, ref } from 'vue'
 import store from '@/store'
 import { Crumb } from '@/types/Crumb'
 import { useColors } from '@/use/colors/useColors'
@@ -66,7 +66,7 @@ export default defineComponent({
 
   setup (props) {
     const state: IState = reactive({
-      label: { date: new Date().toString(), id: 'hoi', label: 'tabak', categoryID: '12', amount: 23, colour: '444', max: 10 },
+      label: { date: new Date().toString(), id: 'hoi', label: 'tabak', categoryID: '12', amount: 23, color: '444', max: 10 },
       labelTemplate: { ...props.buttonData },
       labelData: props.buttonData,
       labelTotal: props.labelTotal,
@@ -85,20 +85,26 @@ export default defineComponent({
       return [round(newTotal).split('.')[0], round(newTotal).split('.')[1]]
     }
 
+    const mostUsedButton = ref<HTMLElement>()
+
     const getTotalPercentage = () => {
       const max = (state.labelTemplate.target || 100)
+      const mub: HTMLDivElement = mostUsedButton.value as HTMLDivElement
 
       const filteredArray = state.crumbs.filter(function (el:Crumb):boolean {
         return el.label === state.labelTemplate.label
       })
 
+      const maxie = (mub) ? (mub.offsetWidth - 8) : (window.innerWidth - 8) // Border / padding offset hardcoded
       const newTotal = filteredArray.reduce((accumulator: number, current: Crumb) => accumulator + current.amount, 0)
-      console.log(state.labelTemplate.label, state.labelTemplate.target, newTotal)
-      console.log(state.labelTemplate.label, newTotal / max)
       const percentageOfTarget = (newTotal / max) * 100
+      const pixelsOfTarget = (percentageOfTarget <= 100) ? (percentageOfTarget / 100) * maxie : maxie
 
+      if (mub) {
+        console.log('MUB', mub.offsetWidth, maxie, percentageOfTarget, pixelsOfTarget)
+      }
       return {
-        width: `${percentageOfTarget}%`
+        width: `${pixelsOfTarget}px`
       }
     }
 
@@ -133,21 +139,27 @@ export default defineComponent({
     const { hexToRGB, rgbToHSL, hexToHSL } = useColors()
 
     const getButtonColor = (): Record<string, unknown> => {
-      const { h, s, l } = hexToHSL(state.labelTemplate.colour)
+      const { h, s, l } = hexToHSL(state.labelTemplate.color)
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + l + '%)' }
     }
 
     const getAddButtonColor = () => {
-      const { h, s, l } = hexToHSL(state.labelTemplate.colour)
+      const { h, s, l } = hexToHSL(state.labelTemplate.color)
       const lCustom = l - 10
 
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l - 20) + '%)' }
     }
 
     const getProgressColor = () => {
-      const { h, s, l } = hexToHSL(state.labelTemplate.colour)
+      const { h, s, l } = hexToHSL(state.labelTemplate.color)
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l + 15) + '%)' }
     }
+
+    const getTextLabelColor = () => {
+      const { h, s, l } = hexToHSL(state.labelTemplate.color)
+      return { color: 'hsl(' + h + ',' + s + '%,' + 10 + '%)' }
+    }
+
 
     let timer = 0
     let startMouseDownTimer = 0
@@ -169,7 +181,7 @@ export default defineComponent({
 
     const checkStatus = () => {
       stopMouseDownTimer = performance.now()
-      console.log(`Call to checkStatus took ${stopMouseDownTimer - startMouseDownTimer} milliseconds.`)
+      // console.log(`Call to checkStatus took ${stopMouseDownTimer - startMouseDownTimer} milliseconds.`)
       if (stopMouseDownTimer - startMouseDownTimer > 500) {
         console.log('should open')
         state.extended = !state.extended
@@ -178,14 +190,14 @@ export default defineComponent({
 
     const isClick = () => {
       stopMouseDownTimer = performance.now()
-      console.log(`Call to isClick took ${stopMouseDownTimer - startMouseDownTimer} milliseconds.`)
+      // console.log(`Call to isClick took ${stopMouseDownTimer - startMouseDownTimer} milliseconds.`)
       if (stopMouseDownTimer - startMouseDownTimer < 400) {
         if (!state.extended) handleClick(state.labelData)
       }
     }
 
     onMounted(() => {
-      console.log('')
+      console.log('----------------- MOUTED ADDBUTTON ------------------')
     })
 
     return {
@@ -198,7 +210,9 @@ export default defineComponent({
       getButtonColor,
       getAddButtonColor,
       getProgressColor,
-      getTotalPercentage
+      getTextLabelColor,
+      getTotalPercentage,
+      mostUsedButton
     }
   }
 })

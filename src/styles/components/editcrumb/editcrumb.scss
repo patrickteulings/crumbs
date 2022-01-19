@@ -1,0 +1,17 @@
+.editcrumb-preview-wrapper {
+  height: 40vh;
+  position: relative;
+  top: -2rem;
+  left: -2rem;
+  width: calc(100% + 4rem);
+  padding: 1rem;
+  padding: 1rem 1rem 3rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: row;
+
+  .most-used-button {
+    width: 100%;
+  }
+}

@@ -4,7 +4,7 @@ export interface CrumbTemplate {
   date?: Date | any;
   categoryID: string;
   amount: number;
-  colour?: string;
+  color?: string;
   target?: number;
   increase?: boolean;
   timespan?: string;
