@@ -20,11 +20,12 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { Crumb } from '@/types/Crumb'
 import store from '@/store'
 
 
 export default defineComponent({
-  name: 'EditLabelTemplate',
+  name: 'EditCrumbTemplate',
   setup () {
     const state = reactive({
       route: useRoute(),
@@ -35,7 +36,7 @@ export default defineComponent({
     const route = useRoute()
 
     const getSelectedCrumb = (): Record<string, unknown> => {
-      const el = state.crumbTemplates.find((item: any) => item.id === state.route.params.id)
+      const el = state.crumbTemplates.find((item: Crumb) => item.id === state.route.params.id)
       return el
     }
 
