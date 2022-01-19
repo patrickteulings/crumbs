@@ -21,10 +21,10 @@
     </div>
   </div>
   <div v-if="extended" class="most-used-button__extended">
-      <label for="extended__amount" >{{(labelData.amount === labelTemplate.amount) ? "Your default value" : "Custom"}}</label>
+      <label for="extended__amount" >{{(labelData.amount === crumbTemplate.amount) ? "Your default value" : "Custom"}}</label>
       <div class="extended-input-row">
         <span class="extended__type">€</span>
-        <input id="extended__amount" type="number" class="extended__amount" :class="(labelData.amount === labelTemplate.amount) ? 'default' : '' " v-model="labelData.amount" >
+        <input id="extended__amount" type="number" class="extended__amount" :class="(labelData.amount === crumbTemplate.amount) ? 'default' : '' " v-model="labelData.amount" >
         <button class="btn extended__button" @click="handleExtendedClick(labelData)">ADD</button>
       </div>
     <div class="extended__date-wrapper">
@@ -42,7 +42,7 @@ import { useColors } from '@/use/colors/useColors'
 interface IState {
   label: Crumb;
   labelData: Crumb;
-  labelTemplate: Crumb;
+  crumbTemplate: Crumb;
   labelTotal: number;
   crumbs: Array<Crumb>;
   extended: boolean;
@@ -67,7 +67,7 @@ export default defineComponent({
   setup (props) {
     const state: IState = reactive({
       label: { date: new Date().toString(), id: 'hoi', label: 'tabak', categoryID: '12', amount: 23, color: '444', max: 10 },
-      labelTemplate: { ...props.buttonData },
+      crumbTemplate: { ...props.buttonData },
       labelData: props.buttonData,
       labelTotal: props.labelTotal,
       crumbs: computed(() => store.getters['crumbStore/getAllCrumbs']),
@@ -88,11 +88,11 @@ export default defineComponent({
     const mostUsedButton = ref<HTMLElement>()
 
     const getTotalPercentage = () => {
-      const max = (state.labelTemplate.target || 100)
+      const max = (state.crumbTemplate.target || 100)
       const mub: HTMLDivElement = mostUsedButton.value as HTMLDivElement
 
       const filteredArray = state.crumbs.filter(function (el:Crumb):boolean {
-        return el.label === state.labelTemplate.label
+        return el.label === state.crumbTemplate.label
       })
 
       const maxie = (mub) ? (mub.offsetWidth - 8) : (window.innerWidth - 8) // Border / padding offset hardcoded
@@ -125,6 +125,7 @@ export default defineComponent({
     const saveNewCrumb = (crumb: Crumb) => {
       state.isAdding = true
       crumb.date = new Date()
+      crumb.categoryID = state.crumbTemplate.id
 
       store.dispatch('crumbStore/addCrumb', crumb).then(() => {
         setTimeout(() => { state.isAdding = false }, 500)
@@ -139,24 +140,24 @@ export default defineComponent({
     const { hexToRGB, rgbToHSL, hexToHSL } = useColors()
 
     const getButtonColor = (): Record<string, unknown> => {
-      const { h, s, l } = hexToHSL(state.labelTemplate.color)
+      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + l + '%)' }
     }
 
     const getAddButtonColor = () => {
-      const { h, s, l } = hexToHSL(state.labelTemplate.color)
+      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
       const lCustom = l - 10
 
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l - 20) + '%)' }
     }
 
     const getProgressColor = () => {
-      const { h, s, l } = hexToHSL(state.labelTemplate.color)
+      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l + 15) + '%)' }
     }
 
     const getTextLabelColor = () => {
-      const { h, s, l } = hexToHSL(state.labelTemplate.color)
+      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
       return { color: 'hsl(' + h + ',' + s + '%,' + 25 + '%)' }
     }
 

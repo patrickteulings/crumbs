@@ -63,6 +63,8 @@ export const CrumbStore = {
       const userID = (context.rootState.userStore.user.uid !== undefined) ? context.rootState.userStore.user.uid : ''
       getDocs(collection(db, 'users', userID, 'crumbs')).then((result) => {
         result.forEach((doc: QueryDocumentSnapshot) => {
+          const el = doc.data()
+          console.log(el.label)
           context.commit(ADD_INITIAL_CRUMBS, doc.data())
         })
       })

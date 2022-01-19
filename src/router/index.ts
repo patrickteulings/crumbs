@@ -31,7 +31,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/editcrumbtemplate/:id',
     name: 'EditCrumbTemplate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/EditCrumbTemplate.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/CrumbTemplateEdit.vue')
+  },
+  {
+    path: '/crumb/category/:categoryID',
+    name: 'DetailCrumbTemplate',
+    component: () => import(/* webpackChunkName: "about" */ '../views/CrumbTemplateDetail.vue')
   }
 
 ]
