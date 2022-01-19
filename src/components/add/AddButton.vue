@@ -157,7 +157,7 @@ export default defineComponent({
 
     const getTextLabelColor = () => {
       const { h, s, l } = hexToHSL(state.labelTemplate.color)
-      return { color: 'hsl(' + h + ',' + s + '%,' + 10 + '%)' }
+      return { color: 'hsl(' + h + ',' + s + '%,' + 25 + '%)' }
     }
 
 
