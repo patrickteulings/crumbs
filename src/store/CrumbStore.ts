@@ -4,6 +4,7 @@ import { reactive } from 'vue'
 import { getDoc, getDocs, setDoc, addDoc, collection, QueryDocumentSnapshot, DocumentSnapshot, DocumentReference } from 'firebase/firestore'
 import { Context } from 'mocha'
 import { ActionContext } from 'vuex'
+import { CrumbTemplate } from '@/types/CrumbTemplate'
 
 const SET_CURRENT_CRUMB = 'SET_CURRENT_CRUMB'
 const ADD_CRUMB = 'ADD_CRUMB'
@@ -85,7 +86,8 @@ export const CrumbStore = {
   getters: {
     getCrumb: (state: Context): Crumb => state.crumb,
     getAllCrumbs: (state: any): Array<Crumb> => state.crumbs,
-    getCrumbTemplates: (state: any) : Array<Crumb> => state.crumbTemplates
+    getCrumbTemplates: (state: any) : Array<Crumb> => state.crumbTemplates,
+    getCrumbTemplateByID: (state: any) => (id: string): CrumbTemplate => state.crumbTemplates.find((item: CrumbTemplate) => item.id === id)
   }
 }
 

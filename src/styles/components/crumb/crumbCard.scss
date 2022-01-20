@@ -1,0 +1,41 @@
+.crumbsList {
+  padding: 2rem;
+  @include transition;
+
+  h2 {
+    font-family: $inter;
+    font-weight: 900;
+    letter-spacing: -0.01rem;
+    color: #B9B9B9;
+    font-size: 12px;
+    margin-bottom: 2rem;
+  }
+}
+
+.crumbCardWrapper {
+
+}
+
+.crumbCard {
+  font-family: $playfair;
+  background: #7DACE5;
+  padding: 1rem;
+  border-radius: 3px;
+  margin-bottom: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+
+  h3 {
+    font-family: $noto;
+    font-weight: 300;
+    letter-spacing: -0.02rem;
+  }
+
+  &__date {
+    span {
+      display: block;
+    }
+  }
+}

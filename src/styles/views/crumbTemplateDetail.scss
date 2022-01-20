@@ -1,4 +1,4 @@
-// BASE
+// BASE LAYOUT STUFF
 .page-crumbTemplateDetail {
   .wrapper__inner {
     // padding-top: 40vh;
@@ -6,26 +6,19 @@
   }
 
   .hero {
-
+    margin-left: -2rem;
+    width: calc(100% + 4rem);
   }
 }
 
 // Elements  / componentens
-.page-editLabelTemplate {
-  h1 {
-    font-family: $lato;
-    font-weight: 900;
-    font-size: 32px;
-    padding-bottom: 2.5rem;
-  }
-}
 
 .page-crumbTemplateDetail{
-  .hero {
-    margin-left: -2rem;
-    width: calc(100% + 4rem);
-  }
   .crumbdetail-calendar {
     height: 50vh;
+
+    .crumbdetail-calendar__inner {
+      padding: 6rem 2rem 2rem
+    }
   }
 }
