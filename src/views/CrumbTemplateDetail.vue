@@ -3,7 +3,6 @@
     <div class="wrapper__inner" style="height: 300vh">
       <div class="hero crumbdetail-calendar">
         <div class="crumbdetail-calendar__inner">
-          calendar here
           <Calendar v-model="date" :attributes="attributes()" color="red" is-dark is-range is-expanded title-position="right" availableDates="range" @dayclick="handleDayClick"/>
         </div>
         <div class="crumbsList">
@@ -12,10 +11,10 @@
             <div v-for="(crumb, i) in validCrumbs" :key="crumb.id" :data-index="i" class="crumbCardWrapper">
               <div class="crumbCard">
                 <h3>{{crumb.label}}</h3>
-                <span class="amount">€{{crumb.amount}}</span>
+                <span class="amount">€{{ crumb.amount }}</span>
                 <div class="crumbCard__date">
-                  <span>{{crumb.date.getDate()}} /</span>
-                  <span>{{crumb.date.getMonth()}}</span>
+                  <span class="day">{{ crumb.date.getDate() }}</span>
+                  <span class="month">{{ format(crumb.date, 'MMM') }}</span>
                 </div>
               </div>
             </div>

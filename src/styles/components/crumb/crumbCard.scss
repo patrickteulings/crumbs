@@ -36,6 +36,20 @@
   &__date {
     span {
       display: block;
+      text-align: right;
+    }
+
+    .day, .month {
+      font-family: $inter;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: -0.02rem;
+    }
+
+    .day {
+      font-weight: 600;
+      color: #000;
+      font-size: 14px;
     }
   }
 }
