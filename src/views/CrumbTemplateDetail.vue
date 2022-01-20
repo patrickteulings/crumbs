@@ -102,39 +102,6 @@ export default defineComponent({
       state.validCrumbs = state.crumbs.filter((crumb: Crumb) => isSameDay(crumb.date, day)).sort((a: Crumb, b: Crumb) => b.date - b.date)
     }
 
-    const onBeforeEnter = (el: any) => {
-      el.style.opacity = 0
-      el.style.transform = 'translate(-0.2rem, 1rem)'
-    }
-
-    const onEnter = (el: any) => {
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        x: 0,
-        duration: 0.4,
-        ease: Expo.easeOut,
-        delay: 0.05 * el.dataset.index
-      })
-    }
-
-    const onBeforeLeave = (el: any) => {
-      el.style.opacity = 0.2
-    }
-
-    const onLeave = (el: any, done: any) => {
-      console.log('ON LEAVE')
-      gsap.to(el, {
-        opacity: 0,
-        x: 0,
-        y: 16,
-        duration: 0.6,
-        ease: Expo.easeOut,
-        onComplete: done,
-        delay: 0.05 * el.dataset.index
-      })
-    }
-
     const isSameDay = (dateOne: Date, dateTwo: Date): boolean => {
       return (
         dateOne.getMonth() === dateTwo.getMonth() &&
@@ -160,6 +127,45 @@ export default defineComponent({
       return { '--i': i }
     }
 
+
+    const onBeforeEnter = (el: any) => {
+      el.style.opacity = 0
+      el.style.transform = 'translate(-0.2rem, 1rem)'
+    }
+
+    const onEnter = (el: any) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        x: 0,
+        duration: 0.4,
+        ease: Expo.easeOut,
+        delay: 0.05 * el.dataset.index
+      })
+    }
+
+    // -------------------------------------------------------------------------- //
+    // ANIMATION FUNCTIONS
+    // -------------------------------------------------------------------------- //
+
+    const onBeforeLeave = (el: any) => {
+      el.style.opacity = 0.2
+    }
+
+    const onLeave = (el: any, done: any) => {
+      console.log('ON LEAVE')
+      gsap.to(el, {
+        opacity: 0,
+        x: 0,
+        y: 16,
+        duration: 0.6,
+        ease: Expo.easeOut,
+        onComplete: done,
+        delay: 0.05 * el.dataset.index
+      })
+    }
+
+
     onMounted(() => {
       console.log('')
       state.validCrumbs = state.crumbs
@@ -181,55 +187,6 @@ export default defineComponent({
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-  strong {
-    font-weight: bold;
-    font-size: 16px;
-    display: block;
-  }
+<!-- STYLES -->
 
-  .small {
-    font-size: 12px;
-  }
-  .list-item {
-  display: inline-block;
-  margin-right: 10px;
-}
-.list-enter-active,
-.list-leave-active {
-  transition: all 1s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-// -------
-
-.slide-in {
-
-  &-leave-active {
-    transition: opacity .4s linear, transform .4s cubic-bezier(.5,0,.7,.4); //cubic-bezier(.7,0,.7,1);
-    transition-delay: calc( 0.1s * (var(--total) - var(--i)) );
-  }
-
-  &-enter-active {
-    transition: opacity 2s linear, transform 2s cubic-bezier(.2,.5,.1,1);
-    transition-delay: calc( 0.1s * var(--i) );
-  }
-
-  &-enter,
-  &-leave-to {
-    opacity: 0.2;
-  }
-
-  &-enter {
-    transform: translateX(-5em);
-    clip-path: polygon(0% 0%, 0% 100%, 100% 30%, 50% 0%);
-  }
-  &-leave-to { transform: translateX(1em); }
-}
-
-</style>
+<style scoped lang="scss"></style>
