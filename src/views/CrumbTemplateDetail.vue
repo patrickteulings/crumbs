@@ -7,8 +7,8 @@
           <Calendar v-model="date" :attributes="attributes()" color="red" is-dark is-range is-expanded title-position="right" availableDates="range" @dayclick="handleDayClick"/>
         </div>
         <div class="crumbsList">
-          <h2 class="crumbsList__title">{{ (selectedDate !== '') ? selectedDate : 'THIS MONTH'}}</h2>
-          <transition-group @before-enter="onBeforeEnter" @enter="onEnter" @beforeLeave="onBeforeLeave" @leave="onLeave" :style="{ '--total': validCrumbs.length }">
+          <h2 class="crumbsList__title">{{ (selectedDate !== '') ? format(new Date(selectedDate), 'eeee do MMMM') : 'THIS MONTH'}}</h2>
+          <transition-group @before-enter="onBeforeEnter" @enter="onEnter" @before-leave="onBeforeLeave" @leave="onLeave" :style="{ '--total': validCrumbs.length }">
             <div v-for="(crumb, i) in validCrumbs" :key="crumb.id" :data-index="i" class="crumbCardWrapper">
               <div class="crumbCard">
                 <h3>{{crumb.label}}</h3>
@@ -40,6 +40,7 @@ import { Calendar } from 'v-calendar'
 
 import { useRoute } from 'vue-router'
 import { useColors } from '@/use/colors/useColors'
+import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 import gsap from 'gsap'
 import { Expo } from 'gsap/all'
@@ -174,14 +175,13 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-      route,
-      getPreviewBackground,
       attributes,
       handleDayClick,
-      getStyle,
       onBeforeEnter,
+      onBeforeLeave,
       onEnter,
-      onLeave
+      onLeave,
+      format
     }
   }
 })
