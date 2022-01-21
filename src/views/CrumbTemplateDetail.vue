@@ -1,36 +1,38 @@
 <template>
   <div class="wrapper page-crumbTemplateDetail">
     <div class="wrapper__inner" style="height: 300vh">
-      <div class="hero crumbdetail-calendar">
+      <div class="hero crumbdetail-calendar" :style="getCalendarBackgroundColor()">
+        <div ref="targetElement" id="targetElement" style="padding: 5rem; background: white; margin: 20px;"><div>click outside</div></div>
         <div class="crumbdetail-calendar__inner">
           <Calendar v-model="date" :attributes="attributes()" color="red" is-dark is-range is-expanded title-position="right" availableDates="range" @dayclick="handleDayClick"/>
         </div>
-        <div class="crumbsList">
-          <h2 class="crumbsList__title">{{ (selectedDate !== '') ? format(new Date(selectedDate), 'eeee do MMMM') : 'THIS MONTH'}}</h2>
-          <transition-group @before-enter="onBeforeEnter" @enter="onEnter" @before-leave="onBeforeLeave" @leave="onLeave" :style="{ '--total': validCrumbs.length }">
-            <div v-for="(crumb, i) in validCrumbs" :key="crumb.id" :data-index="i" class="crumbCardWrapper">
-              <div class="crumbCard">
-                <h3>{{crumb.label}}</h3>
-                <span class="amount">€{{ crumb.amount }}</span>
-                <div class="crumbCard__date">
-                  <span class="day">{{ crumb.date.getDate() }}</span>
-                  <span class="month">{{ format(crumb.date, 'MMM') }}</span>
-                </div>
+      </div>
+      <div class="crumbsList">
+        <h2 class="crumbsList__title">{{ (selectedDate !== '') ? format(new Date(selectedDate), 'eeee do MMMM') : 'THIS MONTH'}}</h2>
+        <div v-if="!validCrumbs.length">Nothing here</div>
+        <transition-group @before-enter="onBeforeEnter" @enter="onEnter" @before-leave="onBeforeLeave" @leave="onLeave">
+          <div v-for="(crumb, i) in validCrumbs" :key="crumb.id" :data-index="i" class="crumbCardWrapper">
+            <div class="crumbCard" :style="getCrumbBackgroundColor()">
+              <h3 class="crumbCard__title">{{crumb.label}}</h3>
+              <span class="crumbCard__amount">€{{ crumb.amount }}</span>
+              <div class="crumbCard__date">
+                <span class="day">{{ crumb.date.getDate() }}</span>
+                <span class="month">{{ format(crumb.date, 'MMM') }}</span>
               </div>
             </div>
-          </transition-group>
-        </div>
-        <h2>ALL CRUMBS</h2>
-        <div v-for="crumb in crumbs" :key="crumb.id">
-          {{crumb.label}}
-        </div>
+          </div>
+        </transition-group>
+      </div>
+      <h2>ALL CRUMBS</h2>
+      <div v-for="crumb in crumbs" :key="crumb.id">
+        {{crumb.label}}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted, computed, StyleValue } from 'vue'
+import { defineComponent, reactive, ref, toRefs, onMounted, computed, StyleValue } from 'vue'
 import store from '@/store'
 
 import { CrumbTemplate } from '@/types/CrumbTemplate'
@@ -39,6 +41,7 @@ import { Calendar } from 'v-calendar'
 
 import { useRoute } from 'vue-router'
 import { useColors } from '@/use/colors/useColors'
+import { useClickOutside } from '@/use/onclickoutside/useClickOutside'
 import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 import gsap from 'gsap'
@@ -71,12 +74,9 @@ export default defineComponent({
       return state.crumbTemplates.find((item:any) => item.id === route.params.categoryID)
     }
 
-    const dates = () => {
-      return state.crumbs.map((crumb: Crumb) => crumb.date)
-    }
-
     const attributes = () => {
-      return dates().map((date: string) => ({
+      const dates = state.crumbs.map((crumb: Crumb) => crumb.date)
+      return dates.map((date: string) => ({
         // highlight: {
         //   style: {
         //     background: '#ff8080'
@@ -114,13 +114,23 @@ export default defineComponent({
     // COLOR FUNCTIONS
     // -------------------------------------------------------------------------- //
 
-    const getPreviewBackground = () => {
+    const getCalendarBackgroundColor = () => {
       const { hexToHSL } = useColors()
       const { h, s, l } = hexToHSL(state.currentTemplate.color)
-      const hslLight = 'hsl(' + h + ',' + (s) + '%,' + (80) + '%)'
-      const hslDark = 'hsl(' + h + ',' + (s) + '%,' + 50 + '%)'
+      const hslLight = 'hsl(' + h + ',' + (s) + '%,' + (100) + '%)'
+      const hslDark = 'hsl(' + h + ',' + (s) + '%,' + 80 + '%)'
 
       return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)` }
+    }
+
+    const getCrumbBackgroundColor = () => {
+      const { hexToHSL } = useColors()
+      const { h, s, l } = hexToHSL(state.currentTemplate.color)
+      const hslLight = 'hsl(' + h + ',' + (s) + '%,' + 80 + '%)'
+      const hslDark = 'hsl(' + h + ',' + (s) + '%,' + 80 + '%)'
+
+      return { background: '#fbfbfb' }
+      // return { background: hslLight }
     }
 
     const getStyle = (i: string): Record<string, unknown> => {
@@ -165,22 +175,31 @@ export default defineComponent({
       })
     }
 
+    const targetElement = ref<HTMLElement>()
+
+    useClickOutside(targetElement, (el: HTMLElement, clickedEl: HTMLElement) => {
+      console.log('jj')
+      el.style.opacity = '0.3'
+    })
+
 
     onMounted(() => {
-      console.log('')
       state.validCrumbs = state.crumbs
       getSelectedCrumb()
     })
 
     return {
       ...toRefs(state),
+      getCrumbBackgroundColor,
+      getCalendarBackgroundColor,
       attributes,
       handleDayClick,
       onBeforeEnter,
       onBeforeLeave,
       onEnter,
       onLeave,
-      format
+      format,
+      targetElement
     }
   }
 })
