@@ -1,5 +1,13 @@
 .loginPage {
-  .section__inner {
-    padding-top: 6rem;
+  .wrapper__inner {
+    padding-top: 12rem;
+  }
+
+  &__title {
+    font-family: $inter;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 160%;
+
   }
 }

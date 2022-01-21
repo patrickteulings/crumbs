@@ -1,18 +1,18 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper page-login">
     <section class="section loginPage">
-      <div class="section__inner">
+      <div class="wrapper__inner">
         <div>
-          <h2 class="user__test">
+          <h2 class="loginPage__title">
             Well howdy, it appears you're not logged in yet?
           </h2>
-
-            <!-- <input type="text" placeholder="username" v-model="username" />
-            <input type="password" placeholder="password" v-model="password" />
-            <button @click="login" :disabled="!isValid">LOGIN</button> -->
           <div class="login__actions">
-            <button class="btn btn--shadowed" @click="loginWithGoogle"><span>Login with Google</span></button>
             <p>{{error}}</p>
+          </div>
+          <div class="login__actions">
+            <div class="login__loginWithGoogle" @click="loginWithGoogle">
+              <img width="191" src="@/assets/images/signin/btn_google_signin_light_normal_web@2x.png" />
+            </div>
           </div>
         </div>
       </div>
@@ -21,18 +21,20 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 import { useLogin } from './../use/auth/useLogin'
 
-export default {
+export default defineComponent({
   setup () {
-    const state = useLogin()
+    const { loginWithGoogle, error } = useLogin()
 
     return {
-      ...state
+      loginWithGoogle,
+      error
     }
   }
-}
+})
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>

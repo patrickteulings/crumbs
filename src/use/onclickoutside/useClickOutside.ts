@@ -10,7 +10,6 @@ export const useClickOutside = (el: Ref<HTMLElement | undefined>, callback: any)
   }
 
   const handleClick = (e: {target: HTMLElement}): void => {
-    console.log('adbakb', containerEl.contains(containerEl))
     if (!containerEl.contains(e.target)) callback(containerEl, e.target)
   }
 
