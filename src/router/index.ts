@@ -47,11 +47,12 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  // canUserAccess() returns `true` or `false`
+  console.log('---------------------------')
   const canAccess = store.getters['userStore/getUser']
   console.log(to, from)
   console.log(store.getters['userStore/getUser'])
   if (!canAccess && to.name !== 'Login') return '/login'
+  console.log('---------------------------')
 })
 
 export default router

@@ -42,12 +42,12 @@ export default function (): Record<string, unknown> {
       store.dispatch('userStore/setUser', user)
       store.dispatch('crumbStore/loadCrumbTemplates')
       store.dispatch('crumbStore/loadCrumbs')
-      router.push('/add')
+      // router.push('/add')
       // ...
     } else {
       state.user = null
       store.dispatch('userStore/setUser', null) // User is gone, nullify
-      router.push('/login')
+      // router.push('/login')
     }
     state.loading = false
   })

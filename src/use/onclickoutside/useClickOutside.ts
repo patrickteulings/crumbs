@@ -1,6 +1,6 @@
 import { Ref, onMounted } from 'vue'
 
-export const useClickOutside = (el: Ref<HTMLElement | undefined>, callback: any): any => {
+export const useClickOutside = (el: Ref<HTMLElement | undefined>, callback: (container: HTMLDivElement, clickedTarget: HTMLElement) => any): Record<string, unknown> => {
   let containerEl: HTMLDivElement
 
   const addEvents = () => {
