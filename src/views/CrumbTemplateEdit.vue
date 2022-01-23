@@ -1,24 +1,21 @@
 <template>
   <div class="wrapper page-editLabelTemplate">
     <div class="wrapper__inner">
-      <div class="editcrumb-preview-wrapper" :style="getPreviewBackground()">
-        <AddButton :buttonData="currentTemplate" :labelTotal="10"></AddButton>
+      <div class="editcrumb-preview-wrapper" :style="getPreviewBackground">
+        <div class="button-wrapper" :style="demoButtonPosition()">
+          <AddButton :buttonData="currentTemplate" :labelTotal="10"></AddButton>
+        </div>
       </div>
 
       <div class="editLabelTemplate">
-        <h1>Crumb Template</h1>
+        <h1>Crumb Template {{x}} {{y}} get {{getWrapperHeight}}</h1>
         <EditCrumb :crumbTemplate="currentTemplate"></EditCrumb>
-        <div v-for="crumb in crumbTemplates" :key="crumb.label">
-          {{crumb.label}} <br>
-          {{crumb.color}} <br>
-          {{crumb.id}}
-          ROUTE: {{route.params.id}} <br><br>
-        </div>
         <div>{{ currentTemplate.label }}</div>
         <div>{{ currentTemplate.amount }}</div>
         <div>{{ currentTemplate.target }}</div>
       </div>
     </div>
+    <div style="height: 1000px;"></div>
   </div>
 </template>
 
@@ -30,6 +27,7 @@ import AddButton from '@/components/add/AddButton.vue'
 import store from '@/store'
 import { CrumbTemplate } from '@/types/CrumbTemplate'
 import { useColors } from '@/use/colors/useColors'
+import { useScroll } from '@/use/scroll/useScroll'
 
 
 export default defineComponent({
@@ -56,15 +54,33 @@ export default defineComponent({
     // COLOR FUNCTIONS
     // -------------------------------------------------------------------------- //
 
-    const getPreviewBackground = () => {
+    const getPreviewBackground = computed(() => {
       const { hexToHSL } = useColors()
       const { h, s, l } = hexToHSL(state.currentTemplate.color)
       const hslLight = 'hsl(' + h + ',' + (s) + '%,' + (80) + '%)'
       const hslDark = 'hsl(' + h + ',' + (s) + '%,' + 50 + '%)'
+      const yVal = el.y.value as number
+      // return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${340 - yVal}px` }
+      const minHeight = ((340 - yVal) >= 240) ? (340 - yVal) : 240
+      return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${minHeight}px` }
+    })
 
-      return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)` }
+
+    const { x, y } = useScroll()
+    const el = useScroll()
+
+    const getWrapperHeight = computed((): any => {
+      console.log('y', y)
+      const bla = el.y.value as number
+      return { height: `${340 - bla}px}` }
+    })
+
+    const demoButtonPosition = () => {
+      let ei = (el.y.value)
+      const dist = 200
+      ei = ei < dist ? ei : dist
+      return { transform: `translateY(${ei * 0.4}px)` }
     }
-
 
     onMounted(() => {
       console.log('')
@@ -73,7 +89,11 @@ export default defineComponent({
     return {
       ...toRefs(state),
       route,
-      getPreviewBackground
+      getPreviewBackground,
+      x,
+      y,
+      getWrapperHeight,
+      demoButtonPosition
     }
   }
 })

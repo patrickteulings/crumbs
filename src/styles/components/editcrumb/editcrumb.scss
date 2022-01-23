@@ -1,9 +1,9 @@
 .editcrumb-preview-wrapper {
-  height: 40vh;
-  position: relative;
-  top: -2rem;
-  left: -2rem;
-  width: calc(100% + 4rem);
+  height: 340px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
   padding: 1rem;
   padding: 1rem 1rem 3rem;
   display: flex;
@@ -14,4 +14,8 @@
   .most-used-button {
     width: 100%;
   }
+}
+
+.editLabelTemplate {
+  padding-top: 340px;
 }

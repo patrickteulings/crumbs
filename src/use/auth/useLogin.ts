@@ -1,6 +1,7 @@
 import { toRefs, reactive, computed } from 'vue'
 import { fire, provider } from '@/config/firebaseConfigTypeScript'
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from 'firebase/auth'
+import store from '@/store'
 
 export const useLogin = () => {
   const state = reactive({
@@ -9,6 +10,8 @@ export const useLogin = () => {
     password: 'null',
     user: null
   })
+
+  const auth = getAuth()
 
   /**
   * have this value `isValid` get updated when the dependent properties
@@ -25,24 +28,39 @@ export const useLogin = () => {
   })
 
 
+  const registerWithEmail = (email: string, password: string): void => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+        console.log(user)
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(error)
+      })
+  }
+
+  const loginWithEmail = (email: string, password: string): Promise<UserCredential> => {
+    return signInWithEmailAndPassword(auth, email, password)
+  }
+
+
   const loginWithGoogle = () => {
-    const auth = getAuth()
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result)!
         const token = credential.accessToken
-        // The signed-in user info.
         const user = result.user
-        // ...
+        store.dispatch('userStore/setUser', user)
       }).catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
-        // The email of the user's account used.
         const email = error.email
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error)
+        store.dispatch('userStore/setUser', null)
         // ...
       })
   }
@@ -69,6 +87,8 @@ export const useLogin = () => {
     // pass back a login and logout function to be utilized
     // by the login form
     loginWithGoogle,
+    registerWithEmail,
+    loginWithEmail,
     logout
   }
 }

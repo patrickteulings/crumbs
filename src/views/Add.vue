@@ -1,24 +1,21 @@
 <template>
   <div class="wrapper page-add">
     <div class="wrapper__inner">
-    <div class="add">
-      <h1>Hi {{user.displayName}}🤗</h1>
-      <h2>Your speeddial</h2>
-        <div class="most-used">
-          <div class="most-used-buttons">
-            <div class="most-used-buttons__inner">
-              <AddButton v-for="item in crumbTemplates" :key="item.id" :buttonData="item" :labelTotal="10"/>
+      <div class="add">
+        <h1>Hi {{user.displayName}}🤗</h1>
+        <h2>Your speeddial</h2>
+          <div class="most-used">
+            <div class="most-used-buttons">
+              <div class="most-used-buttons__inner">
+                <AddButton v-for="item in crumbTemplates" :key="item.id" :buttonData="item" :labelTotal="10"/>
+              </div>
+              <div v-if="!crumbTemplates.length">
+                Looks like you don't have any Crumbs yet. So lets get started!
+              </div>
             </div>
           </div>
-        </div>
-        <!-- <div class="crumbs">
-          <div> hellup</div>
-          <div v-for="crumb in filteredCrumbs()" :key="crumb.label" class="crumb__item">
-            {{crumb.label}} - {{crumb.amount}} - {{crumb.date.toLocaleDateString()}} -- {{crumb.date.toLocaleTimeString()}}
-          </div>
-        </div> -->
+      </div>
     </div>
-  </div>
   </div>
 </template>
 

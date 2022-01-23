@@ -53,7 +53,11 @@ export default defineComponent({
         opacity: 1,
         x: 0,
         ease: 'expo.inOut',
-        onComplete: done
+        onComplete: () => {
+          gsap.set(el, {
+            clearProps: 'transform, opacity'
+          })
+        }
       })
     }
 
@@ -65,7 +69,12 @@ export default defineComponent({
         scaleY: 1,
         x: 0,
         ease: 'expo.inOut',
-        conComplete: done
+        // conComplete: done,
+        onComplete: () => {
+          gsap.set(el, {
+            clearProps: 'translate, opacity'
+          })
+        }
       })
     }
 

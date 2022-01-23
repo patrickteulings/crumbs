@@ -7,7 +7,9 @@ import { ActionContext } from 'vuex'
 import { CrumbTemplate } from '@/types/CrumbTemplate'
 
 const SET_CURRENT_CRUMB = 'SET_CURRENT_CRUMB'
+const SET_CURRENT_CRUMB_TEMPLATE = 'SET_CURRENT_CRUMB_TEMPLATE'
 const ADD_CRUMB = 'ADD_CRUMB'
+const ADD_CRUMB_TEMPLATE = 'ADD_CRUMB_TEMPLATE'
 const ADD_INITIAL_CRUMBS = 'ADD_INITIAL_CRUMBS'
 const ADD_INITIAL_CRUMBTEMPLATES = 'ADD_INITIAL_CRUMBTEMPLATES'
 
@@ -15,6 +17,7 @@ export const CrumbStore = {
   namespaced: true,
   state: reactive({
     crumb: null,
+    crumbTemplate: null,
     crumbs: [],
     crumbTemplates: []
   }),
@@ -23,13 +26,24 @@ export const CrumbStore = {
     SET_CURRENT_CRUMB: (state: any, crumb: Crumb): void => {
       state.crumb = crumb
     },
+
+    SET_CURRENT_CRUMB_TEMPLATE: (state: any, crumbTemplate: CrumbTemplate): void => {
+      state.crumbTemplate = crumbTemplate
+    },
+
+    ADD_CRUMB_TEMPLATE: (state: any, crumb: Crumb): void => {
+      state.crumbs.push(crumb)
+    },
+
     ADD_CRUMB: (state: any, crumb: Crumb): void => {
       state.crumbs.push(crumb)
     },
+
     ADD_INITIAL_CRUMBS: (state: any, crumb: Crumb): void => {
       crumb.date = (crumb.date !== undefined) ? crumb.date.toDate() : new Date()
       state.crumbs.push(crumb)
     },
+
     ADD_INITIAL_CRUMBTEMPLATES: (state: any, crumbTemplate: Crumb): void => {
       state.crumbTemplates.push(crumbTemplate)
     }
@@ -80,8 +94,26 @@ export const CrumbStore = {
           context.commit(ADD_INITIAL_CRUMBTEMPLATES, crumbTemplate)
         })
       })
-    }
+    },
 
+
+    // ADD CRUMB TO DATABASE
+    async addCrumbTemplates ({ commit, rootState }: ActionContext<any, any>, crumbPayload: CrumbTemplate): Promise<void> {
+      const userID = (rootState.userStore.user.uid !== undefined) ? rootState.userStore.user.uid : ''
+
+      const docRef: DocumentReference = await addDoc(collection(db, 'users', userID, 'crumbTemplates'), crumbPayload)
+      const doc: DocumentSnapshot = await getDoc(docRef)
+
+      // SAVE THE FIRABSE-ID INSIDE THE CRUMB OBJECT FOR EASY REFERENCE
+      const crumbTemplate: Crumb = doc.data() as Crumb
+      crumbTemplate.id = doc.id
+      crumbTemplate.date = crumbTemplate.date.toDate()
+
+      commit(ADD_CRUMB_TEMPLATE, crumbTemplate)
+      commit(SET_CURRENT_CRUMB_TEMPLATE, crumbTemplate)
+
+      setDoc(docRef, { crumbTemplate }, { merge: true })
+    }
   },
   getters: {
     getCrumb: (state: Context): Crumb => state.crumb,
