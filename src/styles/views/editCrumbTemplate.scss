@@ -5,7 +5,10 @@
     padding-bottom: 140px;
 
     .button-wrapper {
-      width: 100%;
+      position: absolute;
+      left: 600px;
+      width: 80%;
+      margin-left: 10%;
     }
   }
 }

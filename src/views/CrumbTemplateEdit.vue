@@ -2,8 +2,8 @@
   <div class="wrapper page-editLabelTemplate">
     <div class="wrapper__inner">
       <div class="editcrumb-preview-wrapper" :style="getPreviewBackground">
-        <div class="button-wrapper" :style="demoButtonPosition()">
-          <AddButton :buttonData="currentTemplate" :labelTotal="10"></AddButton>
+        <div class="button-wrapper previewButton" ref="previewButton" id="previewButton" :style="demoButtonPosition()">
+          <AddButton class="preview__previeButton" :buttonData="currentTemplate" :labelTotal="10"></AddButton>
         </div>
       </div>
 
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted, computed } from 'vue'
+import { defineComponent, reactive, toRefs, ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import EditCrumb from '@/components/crumb/EditCrumb.vue'
 import AddButton from '@/components/add/AddButton.vue'
@@ -28,6 +28,8 @@ import store from '@/store'
 import { CrumbTemplate } from '@/types/CrumbTemplate'
 import { useColors } from '@/use/colors/useColors'
 import { useScroll } from '@/use/scroll/useScroll'
+import gsap from 'gsap'
+import { Expo } from 'gsap/all'
 
 
 export default defineComponent({
@@ -61,7 +63,7 @@ export default defineComponent({
       const hslDark = 'hsl(' + h + ',' + (s) + '%,' + 50 + '%)'
       const yVal = el.y.value as number
       // return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${340 - yVal}px` }
-      const minHeight = ((340 - yVal) >= 140) ? (340 - yVal) : 140
+      const minHeight = ((340 - yVal) >= 160) ? (340 - yVal) : 160
       return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${minHeight}px` }
     })
 
@@ -82,8 +84,21 @@ export default defineComponent({
       return { transform: `translateY(${ei * 0.75}px)` }
     }
 
+
+    const previewButton = ref<HTMLElement>()
+
     onMounted(() => {
-      console.log('')
+      const el: HTMLElement | null = document.getElementById('previewButton')
+
+      gsap.to(el, {
+        duration: 0.7,
+        left: 0,
+        delay: 0.1,
+        ease: Expo.easeOut
+        // ease: 'expo.Out'
+      })
+
+      // if (el) el.classList.add('show')
     })
 
     return {
