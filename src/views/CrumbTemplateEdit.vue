@@ -61,7 +61,7 @@ export default defineComponent({
       const hslDark = 'hsl(' + h + ',' + (s) + '%,' + 50 + '%)'
       const yVal = el.y.value as number
       // return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${340 - yVal}px` }
-      const minHeight = ((340 - yVal) >= 240) ? (340 - yVal) : 240
+      const minHeight = ((340 - yVal) >= 140) ? (340 - yVal) : 140
       return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${minHeight}px` }
     })
 
@@ -77,9 +77,9 @@ export default defineComponent({
 
     const demoButtonPosition = () => {
       let ei = (el.y.value)
-      const dist = 200
+      const dist = 100
       ei = ei < dist ? ei : dist
-      return { transform: `translateY(${ei * 0.4}px)` }
+      return { transform: `translateY(${ei * 0.75}px)` }
     }
 
     onMounted(() => {
