@@ -3,16 +3,12 @@
     <div class="wrapper__inner">
       <div class="editcrumb-preview-wrapper" :style="getPreviewBackground">
         <div class="button-wrapper previewButton" ref="previewButton" id="previewButton" :style="demoButtonPosition()">
-          <AddButton class="preview__previeButton" :buttonData="currentTemplate" :labelTotal="10"></AddButton>
+          <CrumbPreview class="preview__previeButton" :buttonData="currentTemplate" :labelTotal="10"></CrumbPreview>
         </div>
       </div>
 
       <div class="editLabelTemplate">
-        <h1>Crumb Template {{x}} {{y}} get {{getWrapperHeight}}</h1>
-        <EditCrumb :crumbTemplate="currentTemplate"></EditCrumb>
-        <div>{{ currentTemplate.label }}</div>
-        <div>{{ currentTemplate.amount }}</div>
-        <div>{{ currentTemplate.target }}</div>
+        <CrumbForm :crumbTemplate="currentTemplate"></CrumbForm>
       </div>
     </div>
     <div style="height: 1000px;"></div>
@@ -22,8 +18,8 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import EditCrumb from '@/components/crumb/EditCrumb.vue'
-import AddButton from '@/components/add/AddButton.vue'
+import CrumbPreview from '@/components/crumb/CrumbPreview.vue'
+import CrumbForm from '@/components/crumb/CrumbForm.vue'
 import store from '@/store'
 import { CrumbTemplate } from '@/types/CrumbTemplate'
 import { useColors } from '@/use/colors/useColors'
@@ -35,8 +31,8 @@ import { Expo } from 'gsap/all'
 export default defineComponent({
   name: 'EditCrumbTemplate',
   components: {
-    EditCrumb,
-    AddButton
+    CrumbForm,
+    CrumbPreview
   },
   setup () {
     const state = reactive({
