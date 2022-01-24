@@ -1,0 +1,20 @@
+.dropdown {
+  display: block;
+
+  &__trigger {
+    background: #999;
+    padding: 0.5rem 1rem;
+  }
+
+  &__content {
+    display: none;
+    @include transition();
+  }
+}
+
+.dropdown.active {
+  .dropdown__content {
+    opacity: 1;
+    display: block;
+  }
+}

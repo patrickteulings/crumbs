@@ -22,3 +22,13 @@ export const useClickOutside = (el: Ref<HTMLElement | undefined>, callback: (con
     handleClick
   }
 }
+
+// ********************************* USAGE *************************************** //
+
+// const htmlELementRef = ref<HTMLElement>()
+// useClickOutside(htmlELementRef, (el: HTMLElement, clickedEl: HTMLElement) => {
+//   console.log('Reference to container with useClickOutside', el)
+//   console.log('Reference to the clicked eleemnt', clickedEl)
+// })
+
+// ********************************* USAGE *************************************** //

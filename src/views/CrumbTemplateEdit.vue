@@ -8,7 +8,7 @@
       </div>
 
       <div class="editLabelTemplate">
-        <CrumbForm :crumbTemplate="currentTemplate"></CrumbForm>
+        <CrumbTemplateForm :crumbTemplate="currentTemplate"></CrumbTemplateForm>
       </div>
     </div>
     <div style="height: 1000px;"></div>
@@ -19,7 +19,7 @@
 import { defineComponent, reactive, toRefs, ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import CrumbPreview from '@/components/crumb/CrumbPreview.vue'
-import CrumbForm from '@/components/crumb/CrumbForm.vue'
+import CrumbTemplateForm from '@/components/crumb/CrumbTemplateForm.vue'
 import store from '@/store'
 import { CrumbTemplate } from '@/types/CrumbTemplate'
 import { useColors } from '@/use/colors/useColors'
@@ -31,7 +31,7 @@ import { Expo } from 'gsap/all'
 export default defineComponent({
   name: 'EditCrumbTemplate',
   components: {
-    CrumbForm,
+    CrumbTemplateForm,
     CrumbPreview
   },
   setup () {
