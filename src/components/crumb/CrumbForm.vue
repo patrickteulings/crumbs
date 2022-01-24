@@ -1,19 +1,15 @@
 <template>
-  <div class="editcrumb">
-    <h1>HALLO</h1>
-    <h2>{{ crumbTemplate.label }}</h2>
-
-    <small>{{ crumbTemplate.id }}</small>
+  <div class="crumbForm">
     <div class="inputRow inputRow--label">
-      <label :style="getLabelColor(100)">Label</label>
+      <label :style="getLabelColor(-20)">Label</label>
       <input ref="crumbLabel" :style="getBackgrounColor(45)" class="input__label" type="text" :value="crumbTemplate.label" @keyup="handleLabelChange($event)">
     </div>
     <div class="inputRow">
-      <label>Amount</label>
+      <label :style="getLabelColor(-20)">Amount</label>
       <input ref="crumbAmount" :style="getBackgrounColor()" type="number" :value="crumbTemplate.amount" @change="handleAmountChange($event)">
     </div>
     <div class="inputRow">
-      <label>Target / Max</label>
+      <label :style="getLabelColor(-20)">Target / Max</label>
       <input ref="crumbAmount" :style="getBackgrounColor()" type="number" :value="crumbTemplate.target" @change="handleTargetChange($event)">
     </div>
 
@@ -71,7 +67,7 @@ export default defineComponent({
       const { hexToHSL } = useColors()
       const { h, s, l } = hexToHSL(state.crumbTemplate.color)
       const hsl = `hsl(${h}, ${s}%, ${l + luminanceOffset}%)`
-      return { background: hsl }
+      return { color: hsl }
     }
 
 

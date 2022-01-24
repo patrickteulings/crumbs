@@ -1,6 +1,8 @@
+$editCrumbInputPadding: 1.5;
+
 .inputRow {
   font-family: $space;
-  padding: 1rem 0;
+  padding: 1rem 1rem 2rem;
   position: relative;
   width: 100%;
 
@@ -15,17 +17,18 @@
     text-transform: uppercase;
     font-weight: 900;
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     font-size: 10px;
-    padding-left: 1.5rem;
+    padding-left: #{$editCrumbInputPadding}rem;
   }
 
   input {
-    padding: 1.5rem;
+    padding: #{$editCrumbInputPadding}rem;
     background: #999;
     border: 0;
     display: block;
-    width: calc(100% - 2rem);
+
+    width: calc(100% - #{calc($editCrumbInputPadding * 2)}rem);
     border-radius: 8px;
     color: #FFF;
     font-size: 1rem;

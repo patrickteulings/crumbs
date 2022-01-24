@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper page-editLabelTemplate">
     <div class="wrapper__inner">
-      <div class="editcrumb-preview-wrapper" :style="getPreviewBackground">
+      <div class="crumb-preview-wrapper" :style="getPreviewBackground">
         <div class="button-wrapper previewButton" ref="previewButton" id="previewButton" :style="demoButtonPosition()">
           <CrumbPreview class="preview__previeButton" :buttonData="currentTemplate" :labelTotal="10"></CrumbPreview>
         </div>
