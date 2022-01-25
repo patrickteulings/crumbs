@@ -3,7 +3,8 @@
     <div class="wrapper__inner">
       <div class="crumb-preview-wrapper" :style="getPreviewBackground">
         <div class="button-wrapper previewButton" ref="previewButton" id="previewButton" :style="demoButtonPosition()">
-          <CrumbPreview class="preview__previeButton" :buttonData="currentTemplate" :labelTotal="10"></CrumbPreview>
+          <DropDown @onItemSelected="handleColorClick" :dropdownData="{triggerLabel:'eg. Amount, Miles ran', items: [{label: 'item nummer 1'}, {label: 'item nummer 2'}, {label: 'item nummer 3'}]}"></DropDown>
+          <CrumbPreview class="preview__previeButton" :buttonData="getCurrentTemplate" :labelTotal="10"></CrumbPreview>
         </div>
       </div>
 
@@ -18,21 +19,26 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import store from '@/store'
+
+import gsap from 'gsap'
+import { Expo } from 'gsap/all'
+
 import CrumbPreview from '@/components/crumb/CrumbPreview.vue'
 import CrumbTemplateForm from '@/components/crumb/CrumbTemplateForm.vue'
-import store from '@/store'
+import DropDown from '@/components/ui/dropdown/DropDown.vue'
+
 import { CrumbTemplate } from '@/types/CrumbTemplate'
 import { useColors } from '@/use/colors/useColors'
 import { useScroll } from '@/use/scroll/useScroll'
-import gsap from 'gsap'
-import { Expo } from 'gsap/all'
 
 
 export default defineComponent({
   name: 'EditCrumbTemplate',
   components: {
     CrumbTemplateForm,
-    CrumbPreview
+    CrumbPreview,
+    DropDown
   },
   setup () {
     const state = reactive({
@@ -48,9 +54,18 @@ export default defineComponent({
       return el
     }
 
+    const getCurrentTemplate = computed(() => {
+      return state.currentTemplate
+    })
+
     // -------------------------------------------------------------------------- //
     // COLOR FUNCTIONS
     // -------------------------------------------------------------------------- //
+
+    const handleColorClick = (arg: any) => {
+      console.log('handleColorClick', arg)
+      state.currentTemplate.color = arg
+    }
 
     const getPreviewBackground = computed(() => {
       const { hexToHSL } = useColors()
@@ -94,6 +109,10 @@ export default defineComponent({
         // ease: 'expo.Out'
       })
 
+      setTimeout(() => {
+        state.currentTemplate.color = 'FF9900'
+      }, 2000)
+
       // if (el) el.classList.add('show')
     })
 
@@ -104,7 +123,9 @@ export default defineComponent({
       x,
       y,
       getWrapperHeight,
-      demoButtonPosition
+      demoButtonPosition,
+      getCurrentTemplate,
+      handleColorClick
     }
   }
 })

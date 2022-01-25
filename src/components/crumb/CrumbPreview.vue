@@ -59,6 +59,7 @@ export default defineComponent({
       crumbTemplate: { ...props.buttonData },
       labelData: props.buttonData,
       labelTotal: props.labelTotal,
+      crumbColor: props.buttonData.color,
       crumbs: computed(() => store.getters['crumbStore/getAllCrumbs']),
       extended: false,
       isAdding: false,
@@ -110,24 +111,24 @@ export default defineComponent({
     const { hexToRGB, rgbToHSL, hexToHSL } = useColors()
 
     const getButtonColor = (): Record<string, unknown> => {
-      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
+      const { h, s, l } = hexToHSL(props.buttonData.color)
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + l + '%)' }
     }
 
     const getAddButtonColor = () => {
-      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
+      const { h, s, l } = hexToHSL(props.buttonData.color)
       const lCustom = l - 10
 
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l - 20) + '%)' }
     }
 
     const getProgressColor = () => {
-      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
+      const { h, s, l } = hexToHSL(props.buttonData.color)
       return { backgroundColor: 'hsl(' + h + ',' + s + '%,' + (l + 15) + '%)' }
     }
 
     const getTextLabelColor = () => {
-      const { h, s, l } = hexToHSL(state.crumbTemplate.color)
+      const { h, s, l } = hexToHSL(props.buttonData.color)
       return { color: 'hsl(' + h + ',' + s + '%,' + 25 + '%)' }
     }
 

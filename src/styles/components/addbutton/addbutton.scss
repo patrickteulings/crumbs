@@ -18,6 +18,7 @@
   min-height: 60px;
   -webkit-touch-callout: none;
   box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.25);
+  @include transition();
 
   &__inner {
     display: flex;
@@ -33,6 +34,7 @@
     pointer-events: none;
     position: relative;
     z-index: 4;
+    @include transition();
 
     &__cents {
       font-size: 12px;
@@ -44,6 +46,7 @@
     pointer-events: none;
     position: relative;
     z-index: 3;
+    @include transition();
   }
 
   .mub-add {
@@ -58,6 +61,7 @@
     width: 52px;
     background: #AC639C;
     align-self: flex-end;
+    @include transition();
   }
 
   .mub-progress {
@@ -69,6 +73,7 @@
     width: 100px;
     background-color: rgba(255,255,255,0.2);
     transition: all 0.3s;
+    @include transition();
   }
 }
 

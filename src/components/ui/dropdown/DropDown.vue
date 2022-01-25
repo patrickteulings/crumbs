@@ -29,7 +29,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const state = reactive({
       label: { date: new Date().toString(), id: 'hoi', label: 'tabak', categoryID: '12', amount: 23, color: '444', max: 10 },
       isActive: false,
@@ -49,6 +49,7 @@ export default defineComponent({
       const container = document.querySelector('.dropdown__content') as HTMLDivElement
       const iets = [...container.children].indexOf(e.target)
       console.log('IETSSSS', iets)
+      emit('onItemSelected', 'ff7733')
     }
 
     const openDropdown = () => {

@@ -11,6 +11,7 @@
   align-items: flex-end;
   justify-content: center;
   flex-direction: row;
+  @include transition();
 
   .most-used-button {
     width: 100%;
