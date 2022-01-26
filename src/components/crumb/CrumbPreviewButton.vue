@@ -7,7 +7,7 @@
         <div class="mub-details disable-select">
           <div class="timespan">Sofar this {{ getCurrentTemplate.timespan }}</div>
           <div class="mub-total">
-            <span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span>
+            <span class="mub-total__euros"><span class="prefix">€</span>{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span>
           </div>
         </div>
         <div class="mub-add disable-select" :style="getAddButtonColor()">

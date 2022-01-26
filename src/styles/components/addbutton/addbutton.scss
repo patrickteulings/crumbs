@@ -49,7 +49,7 @@
   .timespan {
     font-size: 10px;
     font-weight: 300;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
   }
 
 
@@ -66,8 +66,13 @@
     @include transition();
 
     &__cents {
-      font-size: 12px;
+      font-size: 10px;
       margin-left: 1ch;
+    }
+
+    .prefix {
+      margin-right: 0.4rem;
+      opacity: 0.8;
     }
   }
 
