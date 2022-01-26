@@ -33,7 +33,7 @@ import { useScroll } from '@/use/scroll/useScroll'
 
 
 export default defineComponent({
-  name: 'EditCrumbTemplate',
+  name: 'CrumbTemplateEdit',
   components: {
     CrumbTemplateForm,
     CrumbPreviewButton,

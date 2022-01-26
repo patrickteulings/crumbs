@@ -29,8 +29,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
-    path: '/editcrumbtemplate/:id',
-    name: 'EditCrumbTemplate',
+    path: '/crumbtemplate/edit/:id',
+    name: 'CrumbTemplateEdit',
     component: () => import(/* webpackChunkName: "about" */ '../views/CrumbTemplateEdit.vue')
   },
   {

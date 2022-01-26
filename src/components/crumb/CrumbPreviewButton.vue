@@ -1,32 +1,34 @@
 <template>
-  <div ref="mostUsedButton" class="most-used-button" :style="getButtonColor()">
-    <div class="most-used-button__inner">
-      <span class="mub-progress" :style="[getTotalPercentage(), getProgressColor()]"></span>
-      <span class="mub-label disable-select" :style="getTextLabelColor()">{{ getCurrentTemplate.label }}</span>
-      <div class="mub-details disable-select">
-        <div class="timespan">Sofar this {{ getCurrentTemplate.timespan }}</div>
-        <div class="mub-total">
-          <span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span>
+  <div>
+    <div ref="mostUsedButton" class="most-used-button" :style="getButtonColor()">
+      <div class="most-used-button__inner">
+        <span class="mub-progress" :style="[getTotalPercentage(), getProgressColor()]"></span>
+        <span class="mub-label disable-select" :style="getTextLabelColor()">{{ getCurrentTemplate.label }}</span>
+        <div class="mub-details disable-select">
+          <div class="timespan">Sofar this {{ getCurrentTemplate.timespan }}</div>
+          <div class="mub-total">
+            <span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span>
+          </div>
+        </div>
+        <div class="mub-add disable-select" :style="getAddButtonColor()">
+          <span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </span>
         </div>
       </div>
-      <div class="mub-add disable-select" :style="getAddButtonColor()">
-        <span>
-         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-        </span>
+    </div>
+    <div v-if="extended" class="most-used-button__extended">
+        <label for="extended__amount" >{{(labelData.amount === crumbTemplate.amount) ? "Your default value" : "Custom"}}</label>
+        <div class="extended-input-row">
+          <span class="extended__type">€</span>
+          <input id="extended__amount" type="number" class="extended__amount" :class="(labelData.amount === crumbTemplate.amount) ? 'default' : '' " v-model="labelData.amount" >
+          <button class="btn extended__button">ADD</button>
+        </div>
+      <div class="extended__date-wrapper">
+        <div class="extended__date">{{ new Date().toLocaleDateString() }}</div>
       </div>
     </div>
-  </div>
-  <div v-if="extended" class="most-used-button__extended">
-      <label for="extended__amount" >{{(labelData.amount === crumbTemplate.amount) ? "Your default value" : "Custom"}}</label>
-      <div class="extended-input-row">
-        <span class="extended__type">€</span>
-        <input id="extended__amount" type="number" class="extended__amount" :class="(labelData.amount === crumbTemplate.amount) ? 'default' : '' " v-model="labelData.amount" >
-        <button class="btn extended__button">ADD</button>
-      </div>
-    <div class="extended__date-wrapper">
-      <div class="extended__date">{{ new Date().toLocaleDateString() }}</div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -46,7 +48,7 @@ interface IState {
 }
 
 export default defineComponent({
-  name: 'AddButton',
+  name: 'CrumbPreviewButton',
   emits: ['clicked'],
   props: {
     buttonData: {

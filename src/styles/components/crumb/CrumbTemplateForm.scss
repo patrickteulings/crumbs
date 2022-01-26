@@ -33,6 +33,10 @@ $editCrumbInputPadding: 1.5;
     color: #FFF;
     font-size: 1rem;
     text-transform: uppercase;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
