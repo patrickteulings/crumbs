@@ -2,8 +2,13 @@
   <div ref="mostUsedButton" class="most-used-button" :style="getButtonColor()">
     <div class="most-used-button__inner">
       <span class="mub-progress" :style="[getTotalPercentage(), getProgressColor()]"></span>
-      <span class="mub-label disable-select" :style="getTextLabelColor()">{{ labelData.label }} - </span>
-      <div class="mub-total disable-select"><span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span></div>
+      <span class="mub-label disable-select" :style="getTextLabelColor()">{{ getCurrentTemplate.label }}</span>
+      <div class="mub-details disable-select">
+        <div class="timespan">Sofar this {{ getCurrentTemplate.timespan }}</div>
+        <div class="mub-total">
+          <span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span>
+        </div>
+      </div>
       <div class="mub-add disable-select" :style="getAddButtonColor()">
         <span>
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -29,6 +34,7 @@ import { defineComponent, reactive, toRefs, onMounted, PropType, computed, ref }
 import store from '@/store'
 import { Crumb } from '@/types/Crumb'
 import { useColors } from '@/use/colors/useColors'
+import { CrumbTemplate } from '@/types/CrumbTemplate'
 
 interface IState {
   label: Crumb;
@@ -66,6 +72,10 @@ export default defineComponent({
       isGetting: true
     })
 
+    const getCurrentTemplate = computed((): CrumbTemplate => {
+      return props.buttonData
+    })
+
     const getTotalCosts = (label: string): Array<string> => {
       const filteredArray = state.crumbs.filter(function (el:Crumb):boolean {
         return el.label === label
@@ -78,7 +88,7 @@ export default defineComponent({
     const mostUsedButton = ref<HTMLElement>()
 
     const getTotalPercentage = () => {
-      const max = (state.crumbTemplate.target || 100)
+      const max = (props.buttonData.target || 100)
       const mub: HTMLDivElement = mostUsedButton.value as HTMLDivElement
 
       const filteredArray = state.crumbs.filter(function (el:Crumb):boolean {
@@ -146,6 +156,7 @@ export default defineComponent({
       getProgressColor,
       getTextLabelColor,
       getTotalPercentage,
+      getCurrentTemplate,
       mostUsedButton
     }
   }

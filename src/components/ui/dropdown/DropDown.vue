@@ -1,11 +1,11 @@
 <template>
-  <div ref="dropdown" class="dropdown" :class="isActive ? 'active' : ''">
-    <div class="dropdown__trigger" @click="toggleDropdown" :style="getBackgroundColor()">
+  <div ref="dropdown" class="dropdown dropdown--default" :class="isActive ? 'active' : ''">
+    <div class="dropdown__trigger" @click="toggleDropdown" :style="getTriggerBackground()">
       <span class="label">{{ dropdownData.triggerLabel }}</span>
       <span class="chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
     <div class="dropdown__content">
-      <div v-for="item in data.items" :key="item.label" @click="setActiveElement($event)">
+      <div v-for="item in data.items" :key="item.label" @click="setActiveElement($event, item)" class="dropdown__item" :style="getItemColors(20)">
         {{ item.label }}
       </div>
     </div>
@@ -16,16 +16,15 @@
 import { defineComponent, reactive, toRefs, onMounted, PropType, computed, ref } from 'vue'
 
 import { useClickOutside } from '@/use/onclickoutside/useClickOutside'
+import { CrumbTemplate } from '@/types/CrumbTemplate'
+
+import { useColors } from '@/use/colors/useColors'
 
 export default defineComponent({
   name: 'DropDown',
   props: {
     dropdownData: {
       type: Object,
-      required: true
-    },
-    dropdownColor: {
-      type: String,
       required: true
     }
   },
@@ -44,12 +43,12 @@ export default defineComponent({
       closeDropdown()
     })
 
-    const setActiveElement = (e: MouseEvent & { target: HTMLDivElement }) => {
-      console.log(e.target)
-      const container = document.querySelector('.dropdown__content') as HTMLDivElement
-      const iets = [...container.children].indexOf(e.target)
-      console.log('IETSSSS', iets)
-      emit('onItemSelected', 'ff7733')
+    const setActiveElement = (e: MouseEvent & { target: HTMLDivElement }, itemData: CrumbTemplate) => {
+      // const container = document.querySelector('.dropdown__content') as HTMLDivElement
+      // const iets = [...container.children].indexOf(e.target)
+      // console.log('IETSSSS', iets)
+      console.log('EMIT', itemData)
+      emit('onItemSelected', itemData)
     }
 
     const openDropdown = () => {
@@ -64,10 +63,17 @@ export default defineComponent({
       state.isActive = !state.isActive
     }
 
-    const getBackgroundColor = () => {
-      return props.dropdownData.color
+    const getItemColors = (luminanceOffset = 0) => {
+      const { hexToHSL } = useColors()
+      const { h, s, l } = hexToHSL(props.dropdownData.color)
+      const hsl = `hsl(${h}, ${s}%, ${l + luminanceOffset}%)`
+      const textColor = `hsl(${h}, ${s}%, ${l - luminanceOffset}%)`
+      return { backgroundColor: hsl, color: textColor }
     }
 
+    const getTriggerBackground = () => {
+      return { backgroundColor: `#${props.dropdownData.color}` }
+    }
 
     onMounted(() => {
       console.log('----------------- MOUTED DROPDOWN ------------------')
@@ -78,7 +84,8 @@ export default defineComponent({
       openDropdown,
       toggleDropdown,
       setActiveElement,
-      getBackgroundColor,
+      getItemColors,
+      getTriggerBackground,
       dropdown
     }
   }

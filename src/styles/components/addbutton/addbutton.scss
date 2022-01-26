@@ -1,12 +1,12 @@
 
 .most-used-button {
+  display: flex;
+  align-items: center;
   height: 60px;
   border-radius: 30px;
   text-align: left;
   color: white;
   background-color: #BF87B3; // #1FC8A9;
-  display: flex;
-  align-items: center;
   margin-bottom: 0.5rem;
   font-family: $playfair;
   font-style: italic;
@@ -22,11 +22,33 @@
 
   &__inner {
     display: flex;
+    align-items: center;
+    justify-content: stretch;
     padding: 0rem 0 0rem 2rem;
     width: 100%;
     height: 100%;
-    align-items: center;
   }
+
+
+  .mub-label{
+    pointer-events: none;
+    position: relative;
+    z-index: 3;
+    width: 50%;
+    @include transition();
+  }
+
+  .mub-details {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 3;
+  }
+
+  .timespan {
+    font-size: 10px;
+  }
+
 
   .mub-total {
     display: flex;
@@ -34,19 +56,13 @@
     pointer-events: none;
     position: relative;
     z-index: 4;
+    width: 50%;
     @include transition();
 
     &__cents {
       font-size: 12px;
       margin-left: 1ch;
     }
-  }
-
-  .mub-label{
-    pointer-events: none;
-    position: relative;
-    z-index: 3;
-    @include transition();
   }
 
   .mub-add {

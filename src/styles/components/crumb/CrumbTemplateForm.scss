@@ -9,7 +9,7 @@ $editCrumbInputPadding: 1.5;
   &.inputRow--label {
     color: #000;
     input {
-      color: #999;
+      color: #000;
     }
   }
 
@@ -36,8 +36,14 @@ $editCrumbInputPadding: 1.5;
   }
 }
 
-.input__label {
-  font-family: $noto;
-  font-size: 19px;
-  font-weight: 300;
+.inputRow {
+  input {
+    &.input__label {
+      font-family: $noto;
+      font-style: italic;
+      font-size: 19px;
+      font-weight: 300;
+      text-transform: none;
+    }
+  }
 }

@@ -2,15 +2,112 @@
 
 .dropdown {
   &__trigger {
+
+  }
+}
+
+.dropdown.dropdown--default {
+  position: relative;
+  font-family: $space;
+  text-transform: uppercase;
+  font-weight: 400;
+
+  .dropdown__trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 8px;
     padding: 1.5rem;
     color: #FFF;
-    font-family: $space;
-    text-transform: uppercase;
-    font-weight: 600;
 
-    display: flex;
-    justify-content: space-between;
-    align-items:center
+    .chevron {
+    }
+  }
+
+  .dropdown__content {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .dropdown__item {
+      width: 100%;
+      padding: 1.5rem;
+      background: #999;
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+
+      &:first-child {
+        border-radius: 8px 8px 0 0;
+      }
+      &:last-child {
+        border-radius: 0 0 8px 8px;
+        border: 0;
+      }
+    }
+  }
+}
+
+.dropdown.dropdown--default.active {
+  .dropdown__trigger{
+    .chevron {
+      transform-origin: center;
+      animation-duration: 0.5s;
+      animation-name: chevronAnimation;
+      animation-fill-mode: forwards;
+    }
+  }
+  .dropdown__content {
+    max-height: 2000px;
+  }
+}
+
+@keyframes chevronAnimation {
+  0% {
+    transform: rotate(0deg) translateY(0px);
+  }
+
+  50% {
+    opacity: 0;
+    transform: rotate(0deg) translateY(40px);
+  }
+  51% {
+    opacity: 0;
+    transform: rotate(180deg) translateY(40px);
+  }
+  52% {
+    opacity: 0;
+    transform: rotate(180deg) translateY(-40px);
+  }
+
+  100% {
+    transform: rotate(180deg) translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes chevronAnimationOut {
+  0% {
+    transform: rotate(0deg) translateY(0px);
+  }
+
+  50% {
+    opacity: 0;
+    transform: rotate(0deg) translateY(40px);
+  }
+  51% {
+    opacity: 0;
+    transform: rotate(180deg) translateY(40px);
+  }
+  52% {
+    opacity: 0;
+    transform: rotate(180deg) translateY(-40px);
+  }
+
+  100% {
+    transform: rotate(180deg) translateY(0px);
+    opacity: 1;
   }
 }

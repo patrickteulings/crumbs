@@ -2,7 +2,8 @@
   "abstract/reset",
   "abstract/disable-select",
   "abstract/fonts",
-  "abstract/mixins/transitions";
+  "abstract/mixins/transitions",
+  "abstract/mixins/flex";
 
 @import
   "components/addbutton/addbutton",
@@ -10,6 +11,7 @@
   "components/crumb/crumbCard",
   "components/crumb/CrumbTemplateForm",
   "components/ui/dropdown/dropdown",
+  "components/ui/dropdown/colordropdown",
   "components/avatar/avatar";
 
 @import
@@ -20,7 +22,7 @@
 
 @import
   "views/add",
-  "views/editCrumbTemplate",
+  "views/crumbTemplateEdit",
   "views/crumbTemplateDetail",
   "views/loginPage",
   "views/splashscreen";

@@ -3,13 +3,12 @@
     <div class="wrapper__inner">
       <div class="crumb-preview-wrapper" :style="getPreviewBackground">
         <div class="button-wrapper previewButton" ref="previewButton" id="previewButton" :style="demoButtonPosition()">
-          <DropDown @onItemSelected="handleColorClick" :dropdownData="{triggerLabel:'eg. Amount, Miles ran', items: [{label: 'item nummer 1'}, {label: 'item nummer 2'}, {label: 'item nummer 3'}]}"></DropDown>
-          <CrumbPreview class="preview__previeButton" :buttonData="getCurrentTemplate" :labelTotal="10"></CrumbPreview>
+          <ColorDropDown id="colorDropDown" @onItemSelected="handleColorClick" :templateData="getCurrentTemplate" :dropdownData="{triggerLabel:'eg. Amount, Miles ran', items: [{label: 'item nummer 1',color: '714A6A'}, {label: 'item nummer 2', color: '26B8BF'}, {label: 'item nummer 3', color:'7DACE5'}, {label: 'item nummer 3', color:'4BD1B6'}]}"></ColorDropDown>
+          <CrumbPreviewButton class="preview__previeButton" :buttonData="getCurrentTemplate" :labelTotal="10"></CrumbPreviewButton>
         </div>
       </div>
-
       <div class="editLabelTemplate">
-        <CrumbTemplateForm :crumbTemplate="currentTemplate"></CrumbTemplateForm>
+        <CrumbTemplateForm :crumbTemplate="getCurrentTemplate" @updated="onFormUpdate"></CrumbTemplateForm>
       </div>
     </div>
     <div style="height: 1000px;"></div>
@@ -24,9 +23,9 @@ import store from '@/store'
 import gsap from 'gsap'
 import { Expo } from 'gsap/all'
 
-import CrumbPreview from '@/components/crumb/CrumbPreview.vue'
-import CrumbTemplateForm from '@/components/crumb/CrumbTemplateForm.vue'
-import DropDown from '@/components/ui/dropdown/DropDown.vue'
+import CrumbPreviewButton from '@/components/crumb/CrumbPreviewButton.vue'
+import CrumbTemplateForm from '@/components/crumbtemplate/CrumbTemplateForm.vue'
+import ColorDropDown from '@/components/ui/dropdown/ColorDropDown.vue'
 
 import { CrumbTemplate } from '@/types/CrumbTemplate'
 import { useColors } from '@/use/colors/useColors'
@@ -37,15 +36,18 @@ export default defineComponent({
   name: 'EditCrumbTemplate',
   components: {
     CrumbTemplateForm,
-    CrumbPreview,
-    DropDown
+    CrumbPreviewButton,
+    ColorDropDown
   },
   setup () {
     const state = reactive({
       route: useRoute(),
       crumbTemplates: computed(() => store.getters['crumbStore/getCrumbTemplates']),
-      currentTemplate: computed(() => getSelectedCrumb())
+      currentTemplate: computed(() => getSelectedCrumb()),
+      currentTemplateCopy: { id: '0', amount: 0, label: 'label', categoryID: '0', color: 'FBFBFB', target: 31, timespan: 'month' }
     })
+
+    state.currentTemplateCopy = store.getters['crumbStore/getCrumbTemplateByID'](state.route.params.id)
 
     const route = useRoute()
 
@@ -54,17 +56,27 @@ export default defineComponent({
       return el
     }
 
-    const getCurrentTemplate = computed(() => {
-      return state.currentTemplate
+    const getCurrentTemplate = computed((): CrumbTemplate => {
+      // return state.currentTemplate
+      console.log('getcurrent', state.currentTemplateCopy)
+      return state.currentTemplateCopy
     })
+
+    const onFormUpdate = (data: CrumbTemplate): void => {
+      state.currentTemplateCopy.label = data.label
+      state.currentTemplateCopy.amount = data.amount
+      state.currentTemplateCopy.target = (data.target) ? data.target : 31
+      state.currentTemplateCopy.timespan = (data.timespan) ? data.timespan : 'month'
+      state.currentTemplateCopy.label = data.label
+      console.log(state.currentTemplateCopy)
+    }
 
     // -------------------------------------------------------------------------- //
     // COLOR FUNCTIONS
     // -------------------------------------------------------------------------- //
 
-    const handleColorClick = (arg: any) => {
-      console.log('handleColorClick', arg)
-      state.currentTemplate.color = arg
+    const handleColorClick = (arg: CrumbTemplate) => {
+      state.currentTemplateCopy.color = (arg.color) ? arg.color : 'FBFBFB'
     }
 
     const getPreviewBackground = computed(() => {
@@ -76,6 +88,10 @@ export default defineComponent({
       // return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${340 - yVal}px` }
       const minHeight = ((340 - yVal) >= 160) ? (340 - yVal) : 160
       return { background: `linear-gradient(138.49deg, ${hslLight} 2.6%, ${hslDark} 99.01%)`, height: `${minHeight}px` }
+    })
+
+    const getColorDropdownColor = computed(() => {
+      return state.currentTemplate.color
     })
 
 
@@ -100,20 +116,21 @@ export default defineComponent({
 
     onMounted(() => {
       const el: HTMLElement | null = document.getElementById('previewButton')
+      const drop: HTMLElement | null = document.getElementById('colorDropDown')
 
       gsap.to(el, {
         duration: 0.7,
         left: 0,
         delay: 0.1,
         ease: Expo.easeOut
-        // ease: 'expo.Out'
       })
 
-      setTimeout(() => {
-        state.currentTemplate.color = 'FF9900'
-      }, 2000)
-
-      // if (el) el.classList.add('show')
+      gsap.to(drop, {
+        duration: 0.7,
+        translateX: 0,
+        delay: 0.3,
+        ease: Expo.easeOut
+      })
     })
 
     return {
@@ -125,7 +142,9 @@ export default defineComponent({
       getWrapperHeight,
       demoButtonPosition,
       getCurrentTemplate,
-      handleColorClick
+      handleColorClick,
+      getSelectedCrumb,
+      onFormUpdate
     }
   }
 })

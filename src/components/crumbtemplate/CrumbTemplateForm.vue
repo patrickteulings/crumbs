@@ -1,11 +1,12 @@
 <template>
   <div class="crumbForm">
+    <h1>So, this is the gamechanger.... we start with 'Recipes'. Open source pre-defined setups, such as 'Running, track distance, progress per week... target 2000 meter'</h1>
     <div class="inputRow inputRow--label">
       <label :style="getLabelColor(-20)">Label</label>
-      <input ref="crumbLabel" :style="getBackgrounColor(45)" class="input__label" type="text" :value="crumbTemplate.label" @keyup="handleLabelChange($event)">
+      <input ref="crumbLabel" :style="getBackgrounColor(25)" class="input__label" type="text" :value="crumbTemplate.label" @keyup="handleLabelChange($event)">
     </div>
     <div class="inputRow">
-      <label :style="getLabelColor(-20)">Amount</label>
+      <label :style="getLabelColor(-20)">Default Increase each time you do this</label>
       <input ref="crumbAmount" :style="getBackgrounColor()" type="number" :value="crumbTemplate.amount" @change="handleAmountChange($event)">
     </div>
     <div class="inputRow">
@@ -14,11 +15,12 @@
     </div>
     <div class="inputRow">
       <label :style="getLabelColor(-20)">WHAT DO YOU WANT TO TRACK</label>
-      <DropDown :dropdownData="{triggerLabel:'eg. Amount, Miles ran', color: getBackgrounColor(), items: [{label: 'item nummer 1'}, {label: 'item nummer 2'}, {label: 'item nummer 3'}]}" />
+      <DropDown :dropdownData="{triggerLabel:'eg. Amount, Miles ran', color: crumbTemplate.color, items: [{label: 'Amount (€, $)'}, {label: 'Distnance (km /mls)'}, {label: 'Nr times I do X'}]}" />
     </div>
-
-    <div>{{ crumbTemplate.target }}</div>
-    <div>{{ crumbTemplate.timespan }}</div>
+    <div class="inputRow">
+      <label :style="getLabelColor(-20)">Track progress per</label>
+      <DropDown class="" @onItemSelected="handleTimespanChange" :dropdownData="{triggerLabel:'day / week / month', color: crumbTemplate.color, items: [{label: 'Day'}, {label: 'Week'}, {label: 'Month'}]}" />
+    </div>
   </div>
 </template>
 
@@ -36,29 +38,41 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const state: any = reactive({
       crumbTemplate: props.crumbTemplate,
       crumbLabel: props.crumbTemplate.label,
-      crumbTarget: props.crumbTemplate.target
+      crumbTarget: props.crumbTemplate.target,
+      crumbTemplateCopy: { ...props.crumbTemplate }
     })
     const crumbLabel = ref(null)
-    const handleLabelChange = (e: any & {
-      target: HTMLInputElement
-    }): void => {
+
+    const handleLabelChange = (e: any & { target: HTMLInputElement }): void => {
       if (e && e.target) {
         const el = e.target as HTMLInputElement
+        state.crumbTemplateCopy.label = el.value
+        console.log(el.value)
+        emit('updated', state.crumbTemplateCopy)
       }
     }
+
     const handleAmountChange = (e: any & {
       target: HTMLInputElement
     }) => {
-      console.log(e.target.value)
+      state.crumbTemplateCopy.amount = (e.target.value) ? e.target.value : 1
+      emit('updated', state.crumbTemplateCopy)
     }
+
     const handleTargetChange = (e: any & {
       target: HTMLInputElement
     }) => {
-      console.log(e.target.value)
+      state.crumbTemplateCopy.target = (e.target.value) ? e.target.value : 10
+      emit('updated', state.crumbTemplateCopy)
+    }
+
+    const handleTimespanChange = (labelData: any) => {
+      state.crumbTemplateCopy.timespan = (labelData.label) ? labelData.label : 'month'
+      emit('updated', state.crumbTemplateCopy)
     }
 
     const getBackgrounColor = (luminanceOffset = 0) => {
@@ -86,7 +100,8 @@ export default defineComponent({
       handleAmountChange,
       handleTargetChange,
       getBackgrounColor,
-      getLabelColor
+      getLabelColor,
+      handleTimespanChange
     }
   },
   components: { DropDown }
