@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper page-home" style="padding-top: 300px">
     <div class="wrapper__inner">
+      <AddButton :buttonData="demoData" :labelTotal="31"></AddButton>
       <div>Mooie illustratie hier</div>
       <h1>Track anything, anywehere...</h1>
       <router-link to="/login">Login</router-link> |
@@ -9,14 +10,24 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import { defineComponent, toRefs } from 'vue'
 
+import AddButton from '@/components/add/AddButton.vue'
 
-@Options({
+export default defineComponent({
   name: 'Home',
-  components: {}
+  components: { AddButton },
+  setup () {
+    const state = {
+      demoData: { id: '', label: 'Meditate', date: new Date(), categoryID: 'health', amount: 1, color: '#ff9900', target: 31, increase: true, timespan: 'week' }
+    }
+    return {
+      iets: 'bla',
+      ...toRefs(state)
+    }
+  }
 })
-export default class Home extends Vue {}
+
 </script>
 
 <style lang="scss">
