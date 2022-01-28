@@ -15,7 +15,7 @@
     </div>
     <div class="inputRow">
       <label :style="getLabelColor(-20)">WHAT DO YOU WANT TO TRACK</label>
-      <DropDown :dropdownData="{triggerLabel:'eg. Amount, Miles ran', color: crumbTemplate.color, items: [{label: 'Amount (€, $)'}, {label: 'Distnance (km /mls)'}, {label: 'Nr times I do X'}]}" />
+      <DropDown :dropdownData="{triggerLabel:'eg. Amount, Miles ran', color: crumbTemplate.color, items: [{label: 'Amount (€, $)'}, {label: 'Distance (km / mls)'}, {label: 'Nr times I do activity X'}]}" />
     </div>
     <div class="inputRow">
       <label :style="getLabelColor(-20)">Track progress per</label>

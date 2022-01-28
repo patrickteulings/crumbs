@@ -1,0 +1,96 @@
+$playfair: 'Playfair Display', serif;
+$lato: 'Lato', sans;
+$noto: 'noto-serif', serif;
+$inter: 'Inter', sans;
+$abril: 'Abril', serif;
+$space: 'Space Grotesk', sans-serif;
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-black-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-black-webfont.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-bold-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-bold-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-extrabold-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-extrabold-webfont.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-extralight-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-extralight-webfont.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-light-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-light-webfont.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-medium-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-medium-webfont.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-regular-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-regular-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-semibold-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-semibold-webfont.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'noto-serif';
+  src: url('../../assets/fonts/notoserif-thin-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/notoserif-thin-webfont.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}

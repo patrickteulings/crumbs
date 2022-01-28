@@ -5,8 +5,8 @@ import store from '@/store'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Temp',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Temp.vue')
   },
   {
     path: '/home',
@@ -16,12 +16,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/about',
     name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/add',
     name: 'Add',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Add.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Add.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -31,12 +33,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/crumbtemplate/edit/:id',
     name: 'CrumbTemplateEdit',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CrumbTemplateEdit.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/CrumbTemplateEdit.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/crumb/category/:categoryID',
     name: 'DetailCrumbTemplate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CrumbTemplateDetail.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/CrumbTemplateDetail.vue'),
+    meta: { requiresAuth: true }
   }
 
 ]
@@ -54,12 +58,15 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  console.log('---------------------------')
   const canAccess = store.getters['userStore/getUser']
-  console.log(to, from)
-  console.log(store.getters['userStore/getUser'])
-  if (!canAccess && to.name !== 'Login') return '/login'
-  console.log('---------------------------')
+  if (to.meta.requiresAuth && !canAccess) {
+    return {
+      path: '/home',
+      // save the location we were at to come back later
+      query: { redirect: to.fullPath }
+    }
+  }
+  // if (!canAccess && (to.name !== 'Home' && to.name !== 'Login')) return '/Home'
 })
 
 export default router

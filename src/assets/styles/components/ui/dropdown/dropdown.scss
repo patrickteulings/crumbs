@@ -26,18 +26,30 @@
 
   .dropdown__content {
     position: absolute;
+    top: 100%;
     width: 100%;
     z-index: 10;
     max-height: 0;
     overflow: hidden;
     flex-direction: column;
     justify-content: flex-start;
+    border-radius: 8px;
+    transition: all 0.2s ease-out;
+    opacity: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 
     .dropdown__item {
       width: 100%;
       padding: 1.5rem;
       background: #999;
-      border-bottom: 1px solid rgba(255,255,255,0.5);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      font-size: 14px;
+
+      &.active {
+        span {
+          opacity: 0.3;
+        }
+      }
 
       &:first-child {
         border-radius: 8px 8px 0 0;
@@ -61,6 +73,8 @@
   }
   .dropdown__content {
     max-height: 2000px;
+    opacity: 1;
+    top: 80%;
   }
 }
 
