@@ -1,12 +1,12 @@
 <template>
   <div ref="dropdown" class="dropdown dropdown--default" :class="isActive ? 'active' : ''">
     <div class="dropdown__trigger" @click="toggleDropdown" :style="getTriggerBackground()">
-      <span class="label">{{ dropdownData.triggerLabel }}</span>
+      <span class="label">{{ data.triggerLabel }}</span>
       <span class="chevron"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
     <div class="dropdown__content">
-      <div v-for="item in data.items" :key="item.label" @click="setActiveElement($event, item)" class="dropdown__item" :style="getItemColors(20)">
-        {{ item.label }}
+      <div v-for="item in data.items" :key="item.label" @click="setActiveElement($event, item)" class="dropdown__item" :class="(item.active) ? 'active' : ''" :style="getItemColors(20)">
+        <span>{{ item.label }}</span>
       </div>
     </div>
   </div>
@@ -16,7 +16,6 @@
 import { defineComponent, reactive, toRefs, onMounted, PropType, computed, ref } from 'vue'
 
 import { useClickOutside } from '@/use/onclickoutside/useClickOutside'
-import { CrumbTemplate } from '@/types/CrumbTemplate'
 
 import { useColors } from '@/use/colors/useColors'
 
@@ -43,11 +42,11 @@ export default defineComponent({
       closeDropdown()
     })
 
-    const setActiveElement = (e: MouseEvent & { target: HTMLDivElement }, itemData: CrumbTemplate) => {
-      // const container = document.querySelector('.dropdown__content') as HTMLDivElement
-      // const iets = [...container.children].indexOf(e.target)
-      // console.log('IETSSSS', iets)
-      console.log('EMIT', itemData)
+    const setActiveElement = (e: MouseEvent, itemData: Record<string, unknown>) => {
+      closeDropdown()
+      const target = e.target as HTMLDivElement
+      target.classList.add('active')
+      setActiveItem(itemData)
       emit('onItemSelected', itemData)
     }
 
@@ -61,6 +60,14 @@ export default defineComponent({
 
     const toggleDropdown = () => {
       state.isActive = !state.isActive
+    }
+
+    const setActiveItem = (payload: Record<string, unknown>) => {
+      console.log('setActiveItem', payload)
+      state.data.items.forEach((item: any) => {
+        item.active = (item.label === payload.label)
+      })
+      state.data.triggerLabel = payload.label
     }
 
     const getItemColors = (luminanceOffset = 0) => {

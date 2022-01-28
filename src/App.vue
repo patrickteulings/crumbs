@@ -97,7 +97,7 @@ export default defineComponent({
 // beforeEnter
 </script>
 
-<style lang="scss" src='./styles/styles.scss'>
+<style lang="scss" src='./assets/styles/styles.scss'>
 
 
 .slide-enter-active {

@@ -57,8 +57,6 @@ export default defineComponent({
     }
 
     const getCurrentTemplate = computed((): CrumbTemplate => {
-      // return state.currentTemplate
-      console.log('getcurrent', state.currentTemplateCopy)
       return state.currentTemplateCopy
     })
 

@@ -21,12 +21,12 @@
               <div class="loginWithEmail__inner">
                 <form @submit.prevent="handleEmailSignUp">
                   <div class="input-row">
-                    <label for="email">email</label>
-                    <input id="email" v-model="email" type="email" placeholder="you@example.com" @input="resetError()">
+                    <label for="emailSignUp">email</label>
+                    <input id="emailSignUp" v-model="email" type="email" placeholder="you@example.com" @input="resetError">
                   </div>
                   <div class="input-row">
-                    <label for="password">password</label>
-                    <input id="password" v-model="password" type="password" placeholder="you@example.com" @input="resetError()">
+                    <label for="passwordSignup">password</label>
+                    <input id="passwordSignup" v-model="password" type="password" placeholder="you@example.com" @input="resetError">
                   </div>
                   <button type="submit">LOGIN</button>
                 </form>
