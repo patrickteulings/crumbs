@@ -2,7 +2,7 @@
   <div ref="mostUsedButton" class="most-used-button" :style="getButtonColor()">
     <div class="most-used-button__inner">
       <span class="mub-progress" :style="[getTotalPercentage(), getProgressColor()]"></span>
-      <span class="mub-label disable-select" :style="getTextLabelColor()">{{ labelData.label }} - </span>
+      <span class="mub-label disable-select" :style="getTextLabelColor()">{{ labelData.label }} </span>
       <div class="mub-total disable-select"><span class="mub-total__euros">{{ getTotalCosts(labelData.label)[0] }}</span><span class="mub-total__cents">{{ getTotalCosts(labelData.label)[1] }}</span></div>
       <div class="mub-add disable-select"
         @mousedown="handleDown($event)"
