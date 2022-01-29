@@ -1,8 +1,10 @@
 <template>
   <div class="nav" :class="{ open: isOpen }">
-    <button class="nav__trigger" @click="handleNavigationToggle">
-      <span></span>
-      <span></span>
+    <button class="trigger" @click="handleNavigationToggle">
+      <div class="trigger__inner">
+        <span></span>
+        <span></span>
+      </div>
     </button>
     <nav class="nav__items" :style="getNavState">
       <router-link to="/home">Home</router-link>
