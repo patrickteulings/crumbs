@@ -3,12 +3,7 @@
     <div class="splashscreen">SPLASH</div>
   </div>
   <User></User>
-  <div id="nav">
-    <router-link to="/home">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/add">Add</router-link> |
-    <router-link to="/login">Login</router-link>
-  </div>
+  <Nav></Nav>
   <router-view v-slot="{ Component }">
     <transition name="slide" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
       <component :is="Component" />
@@ -19,17 +14,21 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, onMounted, computed } from 'vue'
-import User from '@/components/add/User.vue'
 import store from './store'
-import FloatingNavBar from './components/navigation/FloatingNavBar.vue'
-import useAuth from './use/auth/useAuth'
 import gsap from 'gsap'
+
+import useAuth from './use/auth/useAuth'
+import User from '@/components/add/User.vue'
+
+import FloatingNavBar from './components/navigation/FloatingNavBar.vue'
+import Nav from './components/navigation/Nav.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     User,
-    FloatingNavBar
+    FloatingNavBar,
+    Nav
   },
   setup () {
     const state: any = reactive({

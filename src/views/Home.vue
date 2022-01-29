@@ -1,6 +1,12 @@
 <template>
   <div class="wrapper page-home" style="padding-top: 300px">
     <div class="wrapper__inner">
+      <div class="teaser">
+        <div class="teaser__item">
+          <h2>I track my meditations as encouragement</h2>
+        </div>
+      </div>
+      <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton>
       <div>Mooie illustratie hier</div>
       <h1>Track anything, anywehere...</h1>
       <router-link to="/login">Login</router-link> |
@@ -9,14 +15,24 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import { defineComponent, toRefs } from 'vue'
 
+import CrumbPreviewButton from '@/components/crumb/CrumbPreviewButton.vue'
 
-@Options({
+export default defineComponent({
   name: 'Home',
-  components: {}
+  components: { CrumbPreviewButton },
+  setup () {
+    const state = {
+      demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#456B99', target: 31, increase: true, timespan: 'week' }
+    }
+    return {
+      iets: 'bla',
+      ...toRefs(state)
+    }
+  }
 })
-export default class Home extends Vue {}
+
 </script>
 
 <style lang="scss">

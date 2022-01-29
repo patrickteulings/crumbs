@@ -1,0 +1,18 @@
+.page-home {
+  .teaser {
+    &__item {
+      padding: 2rem 2rem 4rem;
+      background-color: lighten(#456B99, 50%);
+      border-radius: 8px;
+      margin-bottom: -2rem;
+
+      h2 {
+        font-family: $playfair;
+        font-weight: 700;
+        font-style: italic;
+        font-size: 18px;
+        line-height: 190%;
+      }
+    }
+  }
+}
