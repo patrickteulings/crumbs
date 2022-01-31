@@ -3,7 +3,7 @@
     <div class="wrapper__inner">
       <div class="crumb-preview-wrapper" :style="getPreviewBackground">
         <div class="button-wrapper previewButton" ref="previewButton" id="previewButton" :style="demoButtonPosition()">
-          <ColorDropDown id="colorDropDown" @onItemSelected="handleColorClick" :templateData="getCurrentTemplate" :dropdownData="{triggerLabel:'eg. Amount, Miles ran', items: [{label: 'item nummer 1',color: '714A6A'}, {label: 'item nummer 2', color: '26B8BF'}, {label: 'item nummer 3', color:'7DACE5'}, {label: 'item nummer 3', color:'4BD1B6'}]}"></ColorDropDown>
+          <ColorDropDown id="colorDropDown" @onItemSelected="handleColorClick" :templateData="getCurrentTemplate" :dropdownData="{triggerLabel:'eg. Amount, Miles ran', items: [{label: 'item nummer 1',color: '714A6A'}, {label: 'item nummer 2', color: '26B8BF'}, {label: 'item nummer 3', color:'7DACE5'}, {label: 'item nummer 3', color:'4BD1B6'}, {label: 'item nummer 3', color:'456B99'}]}"></ColorDropDown>
           <CrumbPreviewButton class="preview__previeButton" :buttonData="getCurrentTemplate" :labelTotal="10"></CrumbPreviewButton>
         </div>
       </div>

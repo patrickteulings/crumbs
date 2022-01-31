@@ -1,5 +1,5 @@
 <template>
-  <div class="user-avatar">
+  <div class="user-avatar" v-if="isUserVisible">
     <div class="user-avatar__inner">
       <img v-if="user" :src="user.photoURL" :alt="user.displayName" @click="logout">
     </div>
@@ -9,6 +9,7 @@
 <script lang="ts">
 import { defineComponent, toRefs, computed } from 'vue'
 import store from '@/store'
+import { useRoute } from 'vue-router'
 import { IUser } from '@/types/UserType'
 import { useLogin } from '@/use/auth/useLogin'
 
@@ -24,11 +25,17 @@ export default defineComponent({
       user: computed(() => (store.getters['userStore/getUser']))
     }
 
+    const isUserVisible = computed(() => {
+      console.log('useRoute().name', useRoute().name)
+      return (useRoute().name) !== 'Home'
+    })
+
     const { logout } = useLogin()
 
     return {
       ...toRefs(state),
-      logout
+      logout,
+      isUserVisible
     }
   }
 })

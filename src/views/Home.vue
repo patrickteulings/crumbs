@@ -9,7 +9,7 @@
       <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton>
       <div>Mooie illustratie hier</div>
       <h1>Track anything, anywehere...</h1>
-      <router-link to="/login">Login</router-link> |
+      <router-link to="/login" class="btn btn__small">Login</router-link> |
     </div>
   </div>
 </template>

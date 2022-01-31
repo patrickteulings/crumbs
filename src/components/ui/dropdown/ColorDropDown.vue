@@ -59,7 +59,6 @@ export default defineComponent({
     }
 
     const getBackgroundColor = computed(() => {
-      console.log(props.templateData)
       return { backgroundColor: `#${props.templateData.color}` }
     })
 
