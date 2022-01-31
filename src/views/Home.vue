@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper page-home" style="padding-top: 300px">
+  <div class="wrapper page-home">
     <div class="wrapper__inner">
       <div class="teaser">
         <div class="teaser__item">
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue'
+import { defineComponent, toRefs, reactive } from 'vue'
 
 import CrumbPreviewButton from '@/components/crumb/CrumbPreviewButton.vue'
 
@@ -23,9 +23,9 @@ export default defineComponent({
   name: 'Home',
   components: { CrumbPreviewButton },
   setup () {
-    const state = {
+    const state = reactive({
       demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#456B99', target: 31, increase: true, timespan: 'week' }
-    }
+    })
     return {
       iets: 'bla',
       ...toRefs(state)
