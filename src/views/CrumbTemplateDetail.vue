@@ -2,7 +2,6 @@
   <div class="wrapper page-crumbTemplateDetail">
     <div class="wrapper__inner" style="height: 300vh">
       <div class="hero crumbdetail-calendar" :style="getCalendarBackgroundColor()">
-        <div ref="targetElement" id="targetElement" style="padding: 5rem; background: white; margin: 20px;"><div>click outside</div></div>
         <div class="crumbdetail-calendar__inner">
           <Calendar v-model="date" :attributes="attributes()" color="red" is-dark is-range is-expanded title-position="right" availableDates="range" @dayclick="handleDayClick"/>
         </div>
@@ -41,7 +40,6 @@ import { Calendar } from 'v-calendar'
 
 import { useRoute } from 'vue-router'
 import { useColors } from '@/use/colors/useColors'
-import { useClickOutside } from '@/use/onclickoutside/useClickOutside'
 import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 import gsap from 'gsap'
@@ -175,14 +173,6 @@ export default defineComponent({
       })
     }
 
-    const targetElement = ref<HTMLElement>()
-
-    useClickOutside(targetElement, (el: HTMLElement, clickedEl: HTMLElement) => {
-      console.log('jj')
-      el.style.opacity = '0.3'
-    })
-
-
     onMounted(() => {
       state.validCrumbs = state.crumbs
       getSelectedCrumb()
@@ -198,8 +188,7 @@ export default defineComponent({
       onBeforeLeave,
       onEnter,
       onLeave,
-      format,
-      targetElement
+      format
     }
   }
 })
