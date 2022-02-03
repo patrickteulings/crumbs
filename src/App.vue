@@ -9,13 +9,15 @@
       <component :is="Component" />
     </transition>
   </router-view>
-  <FloatingNavBar></FloatingNavBar>
+  <FloatingNavBar v-if="isFloatBarVisible"></FloatingNavBar>
+  {{route}}
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs, onMounted, computed } from 'vue'
 import store from './store'
 import gsap from 'gsap'
+import { useRoute } from 'vue-router'
 
 import useAuth from './use/auth/useAuth'
 import User from '@/components/add/User.vue'
@@ -33,6 +35,12 @@ export default defineComponent({
   setup () {
     const state: any = reactive({
       stateUser: computed(() => store.getters['userStore/getUser'])
+    })
+
+    const route = useRoute()
+
+    const isFloatBarVisible = computed(() => {
+      return (useRoute().name) !== 'Home'
     })
 
     const { user, loading, error } = useAuth()
@@ -88,7 +96,9 @@ export default defineComponent({
       error,
       beforeEnter,
       enter,
-      leave
+      leave,
+      route,
+      isFloatBarVisible
     }
   }
 })
