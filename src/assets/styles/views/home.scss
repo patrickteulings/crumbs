@@ -1,17 +1,59 @@
 .page-home {
+  padding-top: 160px;
+
   .teaser {
+    width: calc(100%);
+    //margin-left: -2rem;
+    overflow: hidden;
+
+    &__items {
+      width: 300%;
+      display: flex;
+      position: relative;
+    }
+
     &__item {
       padding: 2rem 2rem 4rem;
-      background-color: lighten(#456B99, 50%);
       border-radius: 8px;
       margin-bottom: -2rem;
+      width: 100%;
+      overflow: hidden;
 
       h2 {
-        font-family: $playfair;
+        font-family: $space;
         font-weight: 700;
-        font-style: italic;
-        font-size: 18px;
-        line-height: 190%;
+        font-size: 30px;
+        line-height: 140%;
+      }
+    }
+  }
+
+  .teaser {
+
+    &__bullets{
+      display: flex;
+      justify-content: space-around;
+      padding-top: 48px;
+    }
+
+    &__inner {
+      display: flex;
+    }
+
+    &__bullet {
+      background: #456B99;
+      border-radius: 10px;
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: 0;
+
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+
+      &.active {
+        opacity: 0.4;
       }
     }
   }

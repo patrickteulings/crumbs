@@ -15,9 +15,15 @@
 
 .page-crumbTemplateDetail{
   .crumbdetail-calendar {
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
     .crumbdetail-calendar__inner {
-      padding: 12rem 2rem 2rem
+      width: calc(100% - 4rem);
+      align-self: flex-end;
+      margin-bottom: -2rem;
     }
   }
 }

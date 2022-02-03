@@ -1,14 +1,16 @@
 <template>
   <div class="nav" :class="{ open: isOpen }">
-    <button class="nav__trigger" @click="handleNavigationToggle">
-      <span></span>
-      <span></span>
+    <button class="trigger" @click="handleNavigationToggle">
+      <div class="trigger__inner">
+        <span></span>
+        <span></span>
+      </div>
     </button>
     <nav class="nav__items" :style="getNavState">
-      <router-link to="/home">Home</router-link>
-      <router-link to="/about">About</router-link>
-      <router-link to="/add">Add</router-link>
-      <router-link to="/login">Login</router-link>
+      <router-link to="/home" @click="handleMenuClose">Home</router-link>
+      <router-link to="/about" @click="handleMenuClose">About</router-link>
+      <router-link to="/login" @click="handleMenuClose">Login</router-link>
+      <router-link to="/add" @click="handleMenuClose">Add</router-link>
     </nav>
   </div>
 </template>
@@ -32,9 +34,14 @@ export default defineComponent({
       return { display: (state.isOpen) ? 'flex' : 'none' }
     })
 
+    const handleMenuClose = () => {
+      state.isOpen = false
+    }
+
     return {
       handleNavigationToggle,
       getNavState,
+      handleMenuClose,
       ...toRefs(state)
     }
   }

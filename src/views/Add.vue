@@ -9,6 +9,9 @@
               <div class="most-used-buttons__inner">
                 <AddButton v-for="item in crumbTemplates" :key="item.id" :buttonData="item" :labelTotal="10"/>
               </div>
+              <div class="actions">
+                <button type="button" class="btn btn__small">show all</button>
+              </div>
               <div v-if="!crumbTemplates.length">
                 Looks like you don't have any Crumbs yet. So lets get started!
               </div>

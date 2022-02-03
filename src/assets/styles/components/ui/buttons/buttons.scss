@@ -1,0 +1,19 @@
+.btn {
+  background: none;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.btn__small {
+    background-color: #F6F6F6;
+    padding: 0.8rem 2rem;
+    width: 50%;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: $space;
+    font-weight: 600;
+    border-radius: 20px;
+ }
+}

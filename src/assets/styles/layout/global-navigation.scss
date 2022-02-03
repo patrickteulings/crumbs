@@ -1,21 +1,36 @@
+/********** NAV BASE  ***********/
+
 .nav {
   position: fixed;
   top: 0px;
-  width: 100%;
   z-index: 20;
+}
 
-  .nav__trigger {
+/********** NAV TRIGGER BUTTON  ***********/
+
+.nav {
+  .trigger {
     left: 0px;
     padding-left: 32px;
     padding-top: 64px;
+    height: 96px;
+    width: 64px;
     background: none;
     border: 0px;
     position: relative;
     z-index: 10;
 
+    &__inner {
+      position: absolute;
+      left: 32px;
+      top: 64px;
+      width: 34px;
+      height: 12px;
+    }
+
     span {
       display: block;
-      width: 34px;
+      width: 33px;
       height: 1px;
       background-color: #878787;
       text-align: left;
@@ -26,7 +41,11 @@
       }
     }
   }
+}
 
+/********** NAV ITEMS  ***********/
+
+.nav {
   .nav__items {
     display: none;
     position: fixed;
@@ -38,10 +57,6 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
-    &.is-open {
-      display: flex;
-    }
 
     a {
       display: block;
@@ -60,12 +75,17 @@
   }
 }
 
+/********** NAV STATE / OPEN  ***********/
+
 .nav {
   &.open {
-    .nav__trigger{
+    .trigger{
       span {
         background-color: white;
       }
+    }
+    .nav__items {
+      display: flex;
     }
   }
 }
