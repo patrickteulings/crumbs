@@ -9,8 +9,9 @@
 <script lang="ts">
 import { defineComponent, toRefs, computed } from 'vue'
 import store from '@/store'
-import { useRoute } from 'vue-router'
 import { IUser } from '@/types/UserType'
+
+import { useRoute } from 'vue-router'
 import { useLogin } from '@/use/auth/useLogin'
 
 interface IState {
@@ -26,7 +27,6 @@ export default defineComponent({
     }
 
     const isUserVisible = computed(() => {
-      console.log('useRoute().name', useRoute().name)
       return (useRoute().name) !== 'Home'
     })
 

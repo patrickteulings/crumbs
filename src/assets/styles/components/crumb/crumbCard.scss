@@ -26,6 +26,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 80px;
 
 
   &__title {
@@ -44,6 +45,16 @@
   }
 
   &__date {
+    height: calc(100% + 1rem);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+    padding: 0.3rem;
+    margin-top: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     span {
       display: block;
       text-align: right;
@@ -51,15 +62,17 @@
 
     .day, .month {
       font-family: $inter;
-      font-size: 10px;
+      font-size: 12px;
       text-transform: uppercase;
       letter-spacing: -0.02rem;
+      font-weight: 600;
     }
 
     .day {
-      font-weight: 600;
+      font-weight: 900;
       color: #000;
-      font-size: 14px;
+      font-size: 20px;
+      margin-bottom: 0.3rem;
     }
   }
 }
