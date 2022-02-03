@@ -1,5 +1,5 @@
 .page-home {
-  padding-top: 120px;
+  padding-top: 160px;
 
   .teaser {
     width: calc(100%);
@@ -24,7 +24,13 @@
         font-weight: 700;
         font-size: 30px;
         line-height: 140%;
+        position: relative;
       }
+    }
+
+    &__image {
+      padding-top: 2rem;
+      position: relative;
     }
   }
 
@@ -33,7 +39,7 @@
     &__bullets{
       display: flex;
       justify-content: space-around;
-      padding-top: 48px;
+      padding: 48px 0;
     }
 
     &__inner {
