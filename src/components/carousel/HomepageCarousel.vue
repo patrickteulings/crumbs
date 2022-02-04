@@ -305,18 +305,18 @@ export default defineComponent({
     }
 
     const getCarouselPosition = computed((): StyleValue => {
-      // const maxValue = 0
-      // const minValue = state.teaserItemsData.length - 1
-      // let val = state.startPos.x - state.rafValue
+      const maxValue = 0
+      const minValue = state.teaserItemsData.length - 1
+      let val = state.startPos.x - state.rafValue
 
-      // if (val > maxValue) {
-      //   val = maxValue
-      // }
-      // if (val < -minValue) val = -minValue
+      if (val > maxValue) {
+        val = maxValue
+      }
+      if (val < -minValue) val = -minValue
 
       return {
-        // left: `${(val) * 100}%`
-        left: '0%'
+        left: `${(val) * 100}%`
+        // left: '0%'
       }
     })
 
