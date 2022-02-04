@@ -9,7 +9,7 @@
       <component :is="Component" />
     </transition>
   </router-view>
-  <FloatingNavBar v-if="isFloatBarVisible"></FloatingNavBar>
+  <FloatingNavBar></FloatingNavBar>
   {{route}}
 </template>
 
