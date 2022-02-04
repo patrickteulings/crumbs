@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper page-home">
 
-    <!-- <HomepageCarousel /> -->
+    <HomepageCarousel />
 
     <div class="wrapper__inner">
       <router-link to="/login" class="btn btn__small">Get started</router-link>
@@ -11,12 +11,12 @@
 
 <script lang="ts">
 import { defineComponent, toRefs, reactive } from 'vue'
-// import HomepageCarousel from '@/components/carousel/HomepageCarousel.vue'
+import HomepageCarousel from '@/components/carousel/HomepageCarousel.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    // HomepageCarousel
+    HomepageCarousel
   },
   setup () {
     const state = reactive({
