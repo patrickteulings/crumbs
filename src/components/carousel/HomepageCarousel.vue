@@ -266,7 +266,7 @@
 
           </template>
           <template v-slot:action>
-            <!-- <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton> -->
+            <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton>
           </template>
         </HomepageCarouselItem>
       </div>
