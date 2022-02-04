@@ -43,13 +43,13 @@ export default defineComponent({
 
     const getTitleStyle = computed((): StyleValue => {
       return {
-        transform: `translateX(${getLocalPercentage.value * 2}%)`
+        transform: `translateX(${getLocalPercentage.value * 1.4}%)`
       }
     })
 
     const getImageStyle = computed((): StyleValue => {
       return {
-        left: `${getLocalPercentage.value * 0.9}%`
+        left: `${getLocalPercentage.value * 0.7}%`
       }
     })
 
