@@ -47,22 +47,15 @@ export default defineComponent({
       percentageDragged: 0,
       startPos: { x: 0, y: 0 },
       isDragging: false,
-      targetVal: 0,
+      targetValue: 0,
       newVal: 0
     })
 
-    const coffee = useImages().coffeeImage
-    const iets = useImages().coffeeImage
 
-    const handleBulletClick = (index: number) => {
-      state.activeIndex = index
-      state.percentageDragged = 0
-      state.startPos.x = -index
-    }
+    // ---------------------------------------------
+    // CAROUSEL POSITIONING
+    // ---------------------------------------------
 
-    const getBulletClass = computed((index) => {
-      return index === state.activeIndex ? 'active' : ''
-    })
 
     const getCarouselPosition = computed((): StyleValue => {
       return {
@@ -70,27 +63,39 @@ export default defineComponent({
       }
     })
 
+
     const updateTeaserPosition = () => {
-      state.percentageDragged = (state.isDragging) ? ((touchStart.x - touchMove.x) / state.windowProps.width) : 0
-
-      const val = state.startPos.x - state.percentageDragged
-
-      state.targetVal = val * 100
-
       const el = teaserItems.value as HTMLDivElement
       const currentPos = parseFloat(el.style.left)
 
-      const diff = (state.targetVal - currentPos) * 0.3
+      state.percentageDragged = (state.isDragging) ? ((touchStart.x - touchMove.x) / state.windowProps.width) : 0
+      state.targetValue = (state.startPos.x - state.percentageDragged) * 100
+
+      const diff = (state.targetValue - currentPos) * 0.3
 
       state.newVal = (currentPos + diff)
-      if (Math.abs(diff) < 0.1) state.newVal = state.targetVal
+
+      if (Math.abs(diff) < 0.1) state.newVal = state.targetValue // round off if difference is neglectible
 
       window.requestAnimationFrame(updateTeaserPosition)
     }
 
+
     const getPercentageValue = computed((): number => {
       return state.newVal
     })
+
+
+    // ---------------------------------------------
+    // BULLET NAVIGATION
+    // ---------------------------------------------
+
+
+    const handleBulletClick = (index: number) => {
+      state.activeIndex = index
+      state.percentageDragged = 0
+      state.startPos.x = -index
+    }
 
 
     // ---------------------------------------------
@@ -114,6 +119,7 @@ export default defineComponent({
       touchStart.y = e.touches[0].clientY
     }
 
+
     const handleTouchEnd = (e: TouchEvent) => {
       touchEnd.x = touchMove.x
       touchEnd.y = touchMove.x
@@ -128,22 +134,16 @@ export default defineComponent({
       state.isDragging = false
     }
 
+
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault()
 
       touchMove.x = e.touches[0].clientX
       touchMove.y = e.touches[0].clientY
-      console.log(touchStart.x, touchMove.x)
       state.isDragging = true
-
-      // state.activeIndex = ((touchMove.x - touchStart.x) / state.windowProps.width)
-      // console.log('move', `-${state.activeIndex * 100}%`)
     }
 
     onMounted(() => {
-      // teaserItemsWrapper = ref<HTMLDivElement>()
-      // teaserItems = ref<HTMLDivElement>()
-
       const el = teaserItemsWrapper.value
       state.windowProps = { width: (el) ? el.clientWidth : 0, height: (el) ? el.clientHeight : 0 }
 
@@ -159,8 +159,7 @@ export default defineComponent({
       handleTouchEnd,
       handleTouchMove,
       teaserItemsWrapper,
-      teaserItems,
-      getBulletClass
+      teaserItems
     }
   }
 })

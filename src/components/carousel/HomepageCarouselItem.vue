@@ -50,7 +50,7 @@ export default defineComponent({
 
     const getImageStyle = computed((): StyleValue => {
       return {
-        left: `${getLocalPercentage.value * 0.3}%`
+        left: `${getLocalPercentage.value * 0.6}%`
       }
     })
 
