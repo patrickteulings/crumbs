@@ -53,7 +53,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      console.log(state)
+      console.log('FloatingNavBar Mounted')
     })
 
     return {

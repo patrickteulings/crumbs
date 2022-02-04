@@ -366,13 +366,11 @@ export default defineComponent({
       touchMove.x = e.touches[0].clientX
       touchStart.x = e.touches[0].clientX
       touchStart.y = e.touches[0].clientY
-      console.log('start', state.startPos.x)
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
       touchEnd.x = touchMove.x
       touchEnd.y = touchMove.x
-      console.log('end', touchEnd)
     }
 
     const handleTouchMove = (e: TouchEvent) => {
