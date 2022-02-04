@@ -36,54 +36,50 @@ export default defineComponent({
   setup () {
     const state = reactive({
       demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#FFFFFF', target: 31, increase: true, timespan: 'week' },
-      teaserItemsData: [{ label: 'Will your morning coffee bankrupt you?' }, { label: 'Am I hitting my meditation goals?' }, { label: 'Does this even work' }, { label: 'Will your morning coffee bankrupt you?' }],
+      teaserItemsData: [{ label: '0. Will your morning coffee bankrupt you?' }, { label: '1. Am I hitting my meditation goals?' }, { label: '2. Does this even work' }, { label: '3. Run Forest, Run' }],
       activeIndex: 0,
       windowProps: { width: 0, height: 0 },
-      rafValue: 0,
-      startPos: { x: 0, y: 0 }
+      percentageDragged: 0,
+      startPos: { x: 0, y: 0 },
+      isDragging: false,
+      targetVal: 0,
+      newVal: 0
     })
 
     const iets = useImages().coffeeImage
 
     const handleBulletClick = (index: number) => {
       state.activeIndex = index
-      state.rafValue = index
+      state.percentageDragged = 0
+      state.startPos.x = -index
     }
 
     const getCarouselPosition = computed((): StyleValue => {
-      const maxValue = 0
-      const minValue = state.teaserItemsData.length - 1
-      let val = state.startPos.x - state.rafValue
-
-      if (val > maxValue) {
-        val = maxValue
-      }
-      if (val < -minValue) val = -minValue
-
       return {
-        left: `${(val) * 100}%`
-        // left: '0%'
+        left: `${(state.newVal)}%`
       }
     })
 
-    const getHeaderPosition = computed((): StyleValue => {
-      // const val = state.startPos.x - state.rafValue
+    const updateTeaserPosition = () => {
+      state.percentageDragged = (state.isDragging) ? ((touchStart.x - touchMove.x) / state.windowProps.width) : 0
 
-      return {
-        // left: `${100 - (Math.abs(val) * 100)}%`
-        left: '0%'
-      }
-    })
+      const val = state.startPos.x - state.percentageDragged
 
-    const getImagePosition = computed((): StyleValue => {
-      const val = state.startPos.x - state.rafValue
-      return {
-        left: `${50 - (Math.abs(val) * 50)}%`
-      }
-    })
+      state.targetVal = val * 100
+
+      const el = teaserItems.value as HTMLDivElement
+      const currentPos = Math.abs(parseFloat(el.style.left))
+
+      const diff = (Math.abs(state.targetVal) - currentPos) * 0.2
+
+      state.newVal = 0 - (currentPos + diff)
+      if (Math.abs(diff) < 0.1) state.newVal = state.targetVal
+
+      window.requestAnimationFrame(updateTeaserPosition)
+    }
 
     const getPercentageValue = computed((): number => {
-      return state.startPos.x - state.rafValue
+      return state.newVal
     })
 
 
@@ -96,11 +92,6 @@ export default defineComponent({
     const touchStart = { x: 0, y: 0 }
     const touchEnd = { x: 0, y: 0 }
     const touchMove = { x: 0, y: 0 }
-
-    const updateTeaserPosition = () => {
-      state.rafValue = ((touchStart.x - touchMove.x) / state.windowProps.width)
-      window.requestAnimationFrame(updateTeaserPosition)
-    }
 
     const handleTouchStart = (e: TouchEvent) => {
       const el = teaserItems.value as HTMLDivElement
@@ -115,14 +106,30 @@ export default defineComponent({
     const handleTouchEnd = (e: TouchEvent) => {
       touchEnd.x = touchMove.x
       touchEnd.y = touchMove.x
+      if (touchMove.x < touchStart.x) {
+
+      } else {
+        console.log('right')
+      }
+      state.activeIndex = (touchMove.x < touchStart.x) ? state.activeIndex + 1 : state.activeIndex - 1
+      state.activeIndex = (state.activeIndex < 0) ? 0 : state.activeIndex
+      state.activeIndex = (state.activeIndex > 3) ? 3 : state.activeIndex
+
+      state.percentageDragged = 0
+      state.startPos.x = -state.activeIndex
+
+      state.isDragging = false
     }
 
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault()
+
       touchMove.x = e.touches[0].clientX
       touchMove.y = e.touches[0].clientY
+      console.log(touchStart.x, touchMove.x)
+      state.isDragging = true
 
-      state.activeIndex = ((touchMove.x - touchStart.x) / state.windowProps.width)
+      // state.activeIndex = ((touchMove.x - touchStart.x) / state.windowProps.width)
       // console.log('move', `-${state.activeIndex * 100}%`)
     }
 
@@ -140,8 +147,6 @@ export default defineComponent({
       ...toRefs(state),
       handleBulletClick,
       getCarouselPosition,
-      getHeaderPosition,
-      getImagePosition,
       getPercentageValue,
       handleTouchStart,
       handleTouchEnd,

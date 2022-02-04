@@ -9,8 +9,7 @@
       <component :is="Component" />
     </transition>
   </router-view>
-  <FloatingNavBar></FloatingNavBar>
-  {{route}}
+  <!-- <FloatingNavBar></FloatingNavBar> -->
 </template>
 
 <script lang="ts">

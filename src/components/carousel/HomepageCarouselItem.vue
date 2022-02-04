@@ -35,7 +35,10 @@ export default defineComponent({
     const slideIDOffset = toRef(props, 'slideID')
 
 
-    const getLocalPercentage = computed((): number => (parallaxPercentage.value + slideIDOffset.value) * 100)
+    const getLocalPercentage = computed((): number => {
+      console.log(slideIDOffset.value, '.', slideIDOffset.value * 100, parallaxPercentage.value)
+      return (parallaxPercentage.value + (slideIDOffset.value * 100))
+    })
 
     // Style getters for Parallax
 
