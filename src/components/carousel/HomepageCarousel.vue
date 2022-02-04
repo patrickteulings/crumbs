@@ -69,11 +69,11 @@ export default defineComponent({
       state.targetVal = val * 100
 
       const el = teaserItems.value as HTMLDivElement
-      const currentPos = Math.abs(parseFloat(el.style.left))
+      const currentPos = parseFloat(el.style.left)
 
-      const diff = (Math.abs(state.targetVal) - currentPos) * 0.2
+      const diff = (state.targetVal - currentPos) * 0.2
 
-      state.newVal = 0 - (currentPos + diff)
+      state.newVal = (currentPos + diff)
       if (Math.abs(diff) < 0.1) state.newVal = state.targetVal
 
       window.requestAnimationFrame(updateTeaserPosition)
