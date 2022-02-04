@@ -15,5 +15,12 @@
     font-family: $space;
     font-weight: 600;
     border-radius: 20px;
- }
+  }
+
+  &--get-started{
+    background-color: #BA8EC2 !important;
+    color: #fff;
+    text-decoration: none;
+    width: auto !important;
+  }
 }

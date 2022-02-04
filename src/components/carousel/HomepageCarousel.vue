@@ -9,13 +9,13 @@
             <div v-html="item.image"></div>
           </template>
           <template v-slot:action>
-            <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton>
+            <CrumbPreviewButton :buttonData="item.demoData" :labelTotal="31"></CrumbPreviewButton>
           </template>
         </HomepageCarouselItem>
       </div>
       <div class="teaser__bullets">
         <div class="teaser__bullets__inner">
-          <button class="teaser__bullet" type="button" v-for="item, index in teaserItemsData" :key="index" :data="item" :data-id="index" @click="handleBulletClick(index)"></button>
+          <button class="teaser__bullet" type="button" v-for="item, index in teaserItemsData" :key="index" :data="item" :data-id="index" @click="handleBulletClick(index)" :class="activeIndex === index ? 'active' : ''"></button>
         </div>
       </div>
     </div>
@@ -36,7 +36,12 @@ export default defineComponent({
   setup () {
     const state = reactive({
       demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#FFFFFF', target: 31, increase: true, timespan: 'week' },
-      teaserItemsData: [{ label: 'Will your morning coffee bankrupt you?', image: useImages().coffeeImage }, { label: 'Am I hitting my meditation goals?', image: useImages().meditate }, { label: 'Run Forest, Run', image: useImages().run }, { label: 'Mindfull walk', image: useImages().meditate }],
+      teaserItemsData: [
+        { label: 'Will your morning coffee bankrupt you?', image: useImages().coffeeImage, demoData: { id: '', label: 'Coffee', date: new Date(), categoryID: 'health', amount: 1, color: '#FFFFFF', target: 31, increase: true, timespan: 'week' } },
+        { label: 'Am I hitting my meditation goals?', image: useImages().meditate, demoData: { id: '', label: 'Meditate', date: new Date(), categoryID: 'health', amount: 1, color: '#456B99', target: 31, increase: true, timespan: 'week' } },
+        { label: 'Run Forest, Run', image: useImages().run, demoData: { id: '', label: 'Running', date: new Date(), categoryID: 'health', amount: 1, color: '#CFDBDC', target: 31, increase: true, timespan: 'week' } },
+        { label: 'Mindfull walk', image: useImages().meditate, demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#BA8EC2', target: 31, increase: true, timespan: 'week' } }
+      ],
       activeIndex: 0,
       windowProps: { width: 0, height: 0 },
       percentageDragged: 0,
@@ -55,6 +60,10 @@ export default defineComponent({
       state.startPos.x = -index
     }
 
+    const getBulletClass = computed((index) => {
+      return index === state.activeIndex ? 'active' : ''
+    })
+
     const getCarouselPosition = computed((): StyleValue => {
       return {
         left: `${(state.newVal)}%`
@@ -71,7 +80,7 @@ export default defineComponent({
       const el = teaserItems.value as HTMLDivElement
       const currentPos = parseFloat(el.style.left)
 
-      const diff = (state.targetVal - currentPos) * 0.2
+      const diff = (state.targetVal - currentPos) * 0.1
 
       state.newVal = (currentPos + diff)
       if (Math.abs(diff) < 0.1) state.newVal = state.targetVal
@@ -90,6 +99,7 @@ export default defineComponent({
 
     const teaserItemsWrapper = ref<HTMLDivElement>()
     const teaserItems = ref<HTMLDivElement>()
+    const nrTeaserItems = state.teaserItemsData.length
     const touchStart = { x: 0, y: 0 }
     const touchEnd = { x: 0, y: 0 }
     const touchMove = { x: 0, y: 0 }
@@ -107,14 +117,10 @@ export default defineComponent({
     const handleTouchEnd = (e: TouchEvent) => {
       touchEnd.x = touchMove.x
       touchEnd.y = touchMove.x
-      if (touchMove.x < touchStart.x) {
 
-      } else {
-        console.log('right')
-      }
       state.activeIndex = (touchMove.x < touchStart.x) ? state.activeIndex + 1 : state.activeIndex - 1
       state.activeIndex = (state.activeIndex < 0) ? 0 : state.activeIndex
-      state.activeIndex = (state.activeIndex > 3) ? 3 : state.activeIndex
+      state.activeIndex = (state.activeIndex > (nrTeaserItems - 1)) ? (nrTeaserItems - 1) : state.activeIndex
 
       state.percentageDragged = 0
       state.startPos.x = -state.activeIndex
@@ -154,7 +160,7 @@ export default defineComponent({
       handleTouchMove,
       teaserItemsWrapper,
       teaserItems,
-      iets
+      getBulletClass
     }
   }
 })

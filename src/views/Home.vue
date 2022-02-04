@@ -3,8 +3,8 @@
 
     <HomepageCarousel />
 
-    <div class="wrapper__inner">
-      <router-link to="/login" class="btn btn__small">Get started</router-link>
+    <div class="actions">
+      <router-link to="/login" class="btn btn__small btn--get-started">Get started</router-link>
     </div>
   </div>
 </template>
