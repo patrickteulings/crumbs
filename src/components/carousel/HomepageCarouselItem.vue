@@ -6,7 +6,7 @@
     <div class="teaser__image" :style="getImageStyle">
       <slot name="image"></slot>
     </div>
-     <div class="teaser__image" :style="getActionStyle">
+     <div class="teaser__action" :style="getActionStyle">
       <slot name="action"></slot>
     </div>
   </div>
@@ -56,7 +56,7 @@ export default defineComponent({
 
     const getActionStyle = computed((): StyleValue => {
       return {
-        left: `${getLocalPercentage.value * 0.5}%`
+        left: `${getLocalPercentage.value * 0.9}%`
       }
     })
 

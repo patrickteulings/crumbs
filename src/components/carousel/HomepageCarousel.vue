@@ -6,7 +6,7 @@
             <h2>{{ item.label }}</h2>
           </template>
           <template v-slot:image>
-            <div v-html="iets"></div>
+            <div v-html="item.image"></div>
           </template>
           <template v-slot:action>
             <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton>
@@ -36,7 +36,7 @@ export default defineComponent({
   setup () {
     const state = reactive({
       demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#FFFFFF', target: 31, increase: true, timespan: 'week' },
-      teaserItemsData: [{ label: '0. Will your morning coffee bankrupt you?' }, { label: '1. Am I hitting my meditation goals?' }, { label: '2. Does this even work' }, { label: '3. Run Forest, Run' }],
+      teaserItemsData: [{ label: 'Will your morning coffee bankrupt you?', image: useImages().coffeeImage }, { label: 'Am I hitting my meditation goals?', image: useImages().meditate }, { label: 'Run Forest, Run', image: useImages().run }, { label: 'Mindfull walk', image: useImages().meditate }],
       activeIndex: 0,
       windowProps: { width: 0, height: 0 },
       percentageDragged: 0,
@@ -46,6 +46,7 @@ export default defineComponent({
       newVal: 0
     })
 
+    const coffee = useImages().coffeeImage
     const iets = useImages().coffeeImage
 
     const handleBulletClick = (index: number) => {
