@@ -71,11 +71,11 @@ export default defineComponent({
       state.percentageDragged = (state.isDragging) ? ((touchStart.x - touchMove.x) / state.windowProps.width) : 0
       state.targetValue = (state.startPos.x - state.percentageDragged) * 100
 
-      const diff = (state.targetValue - currentPos) * 0.2
+      const diff = (state.targetValue - currentPos) * 0.1
 
       state.newVal = (currentPos + diff)
 
-      if (Math.abs(diff) < 0.1) state.newVal = state.targetValue // round off if difference is neglectible
+      // if (Math.abs(diff) < 0.1) state.newVal = state.targetValue // round off if difference is neglectible
 
       window.requestAnimationFrame(updateTeaserPosition)
     }
@@ -123,6 +123,13 @@ export default defineComponent({
     const handleTouchEnd = (e: TouchEvent) => {
       touchEnd.x = touchMove.x
       touchEnd.y = touchMove.x
+
+
+      console.log(Math.abs(touchMove.x - touchStart.x))
+      if (Math.abs(touchMove.x - touchStart.x) < 70) {
+        state.isDragging = false
+        return
+      }
 
       state.activeIndex = (touchMove.x < touchStart.x) ? state.activeIndex + 1 : state.activeIndex - 1
       state.activeIndex = (state.activeIndex < 0) ? 0 : state.activeIndex

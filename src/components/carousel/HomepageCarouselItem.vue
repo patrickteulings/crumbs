@@ -36,7 +36,6 @@ export default defineComponent({
 
 
     const getLocalPercentage = computed((): number => {
-      console.log(slideIDOffset.value, '.', slideIDOffset.value * 100, parallaxPercentage.value)
       return (parallaxPercentage.value + (slideIDOffset.value * 100))
     })
 
@@ -44,13 +43,13 @@ export default defineComponent({
 
     const getTitleStyle = computed((): StyleValue => {
       return {
-        left: `${getLocalPercentage.value * 0.7}%`
+        transform: `translateX(${getLocalPercentage.value * 2}%)`
       }
     })
 
     const getImageStyle = computed((): StyleValue => {
       return {
-        left: `${getLocalPercentage.value * 0.6}%`
+        left: `${getLocalPercentage.value * 0.9}%`
       }
     })
 
