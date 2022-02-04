@@ -80,7 +80,7 @@ export default defineComponent({
       const el = teaserItems.value as HTMLDivElement
       const currentPos = parseFloat(el.style.left)
 
-      const diff = (state.targetVal - currentPos) * 0.1
+      const diff = (state.targetVal - currentPos) * 0.3
 
       state.newVal = (currentPos + diff)
       if (Math.abs(diff) < 0.1) state.newVal = state.targetVal
