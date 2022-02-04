@@ -71,7 +71,7 @@ export default defineComponent({
       state.percentageDragged = (state.isDragging) ? ((touchStart.x - touchMove.x) / state.windowProps.width) : 0
       state.targetValue = (state.startPos.x - state.percentageDragged) * 100
 
-      const diff = (state.targetValue - currentPos) * 0.3
+      const diff = (state.targetValue - currentPos) * 0.2
 
       state.newVal = (currentPos + diff)
 
