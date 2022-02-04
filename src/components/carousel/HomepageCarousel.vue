@@ -266,7 +266,7 @@
 
           </template>
           <template v-slot:action>
-            <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton>
+            <!-- <CrumbPreviewButton :buttonData="demoData" :labelTotal="31"></CrumbPreviewButton> -->
           </template>
         </HomepageCarouselItem>
       </div>
@@ -305,33 +305,32 @@ export default defineComponent({
     }
 
     const getCarouselPosition = computed((): StyleValue => {
-      const maxValue = 0
-      const minValue = state.teaserItemsData.length - 1
-      let val = state.startPos.x - state.rafValue
+      // const maxValue = 0
+      // const minValue = state.teaserItemsData.length - 1
+      // let val = state.startPos.x - state.rafValue
 
-      if (val > maxValue) {
-        val = maxValue
-      }
-      if (val < -minValue) val = -minValue
-
-      // console.log('computed', state.startPos.x, state.rafValue)
+      // if (val > maxValue) {
+      //   val = maxValue
+      // }
+      // if (val < -minValue) val = -minValue
 
       return {
-        left: `${(val) * 100}%`
+        // left: `${(val) * 100}%`
+        left: '0%'
       }
     })
 
     const getHeaderPosition = computed((): StyleValue => {
-      const val = state.startPos.x - state.rafValue
+      // const val = state.startPos.x - state.rafValue
 
       return {
-        left: `${100 - (Math.abs(val) * 100)}%`
+        // left: `${100 - (Math.abs(val) * 100)}%`
+        left: '0%'
       }
     })
 
     const getImagePosition = computed((): StyleValue => {
       const val = state.startPos.x - state.rafValue
-      console.log('header', 100 - (Math.abs(val) * 100))
       return {
         left: `${50 - (Math.abs(val) * 50)}%`
       }
