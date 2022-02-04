@@ -47,7 +47,7 @@ export default defineComponent({
     })
     const crumbLabel = ref(null)
 
-    const handleLabelChange = (e: any & { target: HTMLInputElement }): void => {
+    const handleLabelChange = (e: Event & { target: HTMLInputElement }): void => {
       if (e && e.target) {
         const el = e.target as HTMLInputElement
         state.crumbTemplateCopy.label = el.value
