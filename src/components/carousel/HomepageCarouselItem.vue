@@ -1,23 +1,19 @@
 <template>
   <div class="teaser__item">
-    <slot name="header"></slot>
-    <div ref="teaserImage" class="teaser__image">
-      {{$props.percentage}}
+    <div class="teaser__title" :style="getTitleStyle">
+      <slot name="title"></slot>
+    </div>
+    <div class="teaser__image" :style="getImageStyle">
       <slot name="image"></slot>
     </div>
-    <slot name="action"></slot>
-
-    <main>
-      <!-- We want main content here -->
-    </main>
-    <footer>
-      <!-- We want footer content here -->
-    </footer>
+     <div class="teaser__image" :style="getActionStyle">
+      <slot name="action"></slot>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from 'vue'
+import { defineComponent, ref, reactive, toRefs, toRef, computed, StyleValue } from 'vue'
 
 export default defineComponent({
   name: 'HomepageCarouselItem',
@@ -25,18 +21,49 @@ export default defineComponent({
     percentage: {
       required: true,
       type: Number
+    },
+    slideID: {
+      required: true,
+      type: Number
     }
   },
   setup (props) {
     const state = reactive({
-      parallaxPercentage: props.percentage
+    })
+    // Props
+    const parallaxPercentage = toRef(props, 'percentage')
+    const slideIDOffset = toRef(props, 'slideID')
+
+
+    const getLocalPercentage = computed((): number => (parallaxPercentage.value + slideIDOffset.value) * 100)
+
+    // Style getters for Parallax
+
+    const getTitleStyle = computed((): StyleValue => {
+      return {
+        left: `${getLocalPercentage.value * 0.7}%`
+      }
     })
 
-    const teaserImage = ref<HTMLDivElement>()
+    const getImageStyle = computed((): StyleValue => {
+      return {
+        left: `${getLocalPercentage.value * 0.3}%`
+      }
+    })
+
+    const getActionStyle = computed((): StyleValue => {
+      return {
+        left: `${getLocalPercentage.value * 0.5}%`
+      }
+    })
 
     return {
       ...toRefs(state),
-      teaserImage
+      parallaxPercentage,
+      slideIDOffset,
+      getTitleStyle,
+      getImageStyle,
+      getActionStyle
     }
   }
 })
