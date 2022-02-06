@@ -2,13 +2,13 @@
     <div class="teaser" ref="teaserItemsWrapper">
       <div ref="teaserItems" class="teaser__items" :style="getCarouselPosition" @touchstart="handleTouchStart" @touchend="handleTouchEnd" @touchmove="handleTouchMove">
         <HomepageCarouselItem v-for="item, index in teaserItemsData" :key="`blabla${index}`" :percentage="getPercentageValue" :slideID="index">
-          <template v-slot:title>
+          <template #title>
             <h2>{{ item.label }}</h2>
           </template>
-          <template v-slot:image>
+          <template #image>
             <div v-html="item.image"></div>
           </template>
-          <template v-slot:action>
+          <template #action>
             <CrumbPreviewButton :buttonData="item.demoData" :labelTotal="31"></CrumbPreviewButton>
           </template>
         </HomepageCarouselItem>
@@ -66,6 +66,7 @@ export default defineComponent({
 
     const updateTeaserPosition = () => {
       const el = teaserItems.value as HTMLDivElement
+      if (!el) return
       const currentPos = parseFloat(el.style.left)
 
       state.percentageDragged = (state.isDragging) ? ((touchStart.x - touchMove.x) / state.windowProps.width) : 0
