@@ -15,9 +15,10 @@
       </div>
       <div class="teaser__bullets">
         <div class="teaser__bullets__inner">
-          <button class="teaser__bullet" type="button" v-for="item, index in teaserItemsData" :key="index" :data="item" :data-id="index" @click="handleBulletClick(index)" :class="activeIndex === index ? 'active' : ''"></button>
+          <button class="teaser__bullet" type="button" v-for="item, index in teaserItemsData" :key="'bullet' + index" :data="item" :data-id="index" @click="handleBulletClick(index)" :class="activeIndex === index ? 'active' : ''"></button>
         </div>
       </div>
+      <HomepageCarouselBullets />
     </div>
 </template>
 
@@ -25,30 +26,32 @@
 import { defineComponent, reactive, StyleValue, toRefs, computed, ref, onMounted } from 'vue'
 import CrumbPreviewButton from '../crumb/CrumbPreviewButton.vue'
 import HomepageCarouselItem from './HomepageCarouselItem.vue'
-import { useImages } from './Images'
+import { useSvgImages } from './useSvgImages'
+import HomepageCarouselBullets from './HomepageCarouselBullets.vue'
 
 export default defineComponent({
   name: 'HomepageCarousel',
   components: {
     CrumbPreviewButton,
-    HomepageCarouselItem
+    HomepageCarouselItem,
+    HomepageCarouselBullets
   },
   setup () {
     const state = reactive({
-      demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#FFFFFF', target: 31, increase: true, timespan: 'week' },
       teaserItemsData: [
-        { label: 'Will your morning coffee bankrupt you?', image: useImages().coffeeImage, demoData: { id: '', label: 'Coffee', date: new Date(), categoryID: 'health', amount: 1, color: '#FFFFFF', target: 31, increase: true, timespan: 'week' } },
-        { label: 'Am I hitting my meditation goals?', image: useImages().meditate, demoData: { id: '', label: 'Meditate', date: new Date(), categoryID: 'health', amount: 1, color: '#456B99', target: 31, increase: true, timespan: 'week' } },
-        { label: 'Run Forest, Run', image: useImages().run, demoData: { id: '', label: 'Running', date: new Date(), categoryID: 'health', amount: 1, color: '#CFDBDC', target: 31, increase: true, timespan: 'week' } },
-        { label: 'Mindfull walk', image: useImages().meditate, demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#BA8EC2', target: 31, increase: true, timespan: 'week' } }
+        { label: 'Will your morning coffee bankrupt you?', image: useSvgImages().coffeeImage, demoData: { id: '', label: 'Coffee', date: new Date(), categoryID: 'health', amount: 1, color: '#FFFFFF', target: 31, increase: true, timespan: 'week' } },
+        { label: 'Am I hitting my meditation goals?', image: useSvgImages().meditate, demoData: { id: '', label: 'Meditate', date: new Date(), categoryID: 'health', amount: 1, color: '#456B99', target: 31, increase: true, timespan: 'week' } },
+        { label: 'Run Forest, Run', image: useSvgImages().run, demoData: { id: '', label: 'Running', date: new Date(), categoryID: 'health', amount: 1, color: '#CFDBDC', target: 31, increase: true, timespan: 'week' } },
+        { label: 'Mindfull walk', image: useSvgImages().meditate, demoData: { id: '', label: 'Meditatie', date: new Date(), categoryID: 'health', amount: 1, color: '#BA8EC2', target: 31, increase: true, timespan: 'week' } }
       ],
       activeIndex: 0,
-      windowProps: { width: 0, height: 0 },
       percentageDragged: 0,
+      windowProps: { width: 0, height: 0 },
       startPos: { x: 0, y: 0 },
       isDragging: false,
       targetValue: 0,
-      newVal: 0
+      newVal: 0,
+      eristof: 2
     })
 
 
@@ -64,9 +67,12 @@ export default defineComponent({
     })
 
 
+    const initTeaser = () => {
+      updateTeaserPosition()
+    }
+
     const updateTeaserPosition = () => {
       const el = teaserItems.value as HTMLDivElement
-      if (!el) return
       const currentPos = parseFloat(el.style.left)
 
       state.percentageDragged = (state.isDragging) ? ((touchStart.x - touchMove.x) / state.windowProps.width) : 0
@@ -75,8 +81,6 @@ export default defineComponent({
       const diff = (state.targetValue - currentPos) * 0.15
 
       state.newVal = (currentPos + diff)
-
-      // if (Math.abs(diff) < 0.1) state.newVal = state.targetValue // round off if difference is neglectible
 
       window.requestAnimationFrame(updateTeaserPosition)
     }
@@ -106,35 +110,37 @@ export default defineComponent({
     const teaserItemsWrapper = ref<HTMLDivElement>()
     const teaserItems = ref<HTMLDivElement>()
     const nrTeaserItems = state.teaserItemsData.length
+    const swipeThreshold = 80
     const touchStart = { x: 0, y: 0 }
     const touchEnd = { x: 0, y: 0 }
     const touchMove = { x: 0, y: 0 }
 
+
     const handleTouchStart = (e: TouchEvent) => {
       const el = teaserItems.value as HTMLDivElement
+
       state.startPos.x = parseInt(el.style.left, 10) / 100
       state.startPos.y = parseInt(el.style.top, 10) / 100
 
-      touchMove.x = e.touches[0].clientX
       touchStart.x = e.touches[0].clientX
       touchStart.y = e.touches[0].clientY
+
+      touchMove.x = e.touches[0].clientX
     }
 
 
-    const handleTouchEnd = (e: TouchEvent) => {
+    const handleTouchEnd = () => {
       touchEnd.x = touchMove.x
       touchEnd.y = touchMove.x
 
-
-      console.log(Math.abs(touchMove.x - touchStart.x))
-      if (Math.abs(touchMove.x - touchStart.x) < 70) {
+      if (Math.abs(touchMove.x - touchStart.x) < swipeThreshold) {
         state.isDragging = false
         return
       }
 
-      state.activeIndex = (touchMove.x < touchStart.x) ? state.activeIndex + 1 : state.activeIndex - 1
-      state.activeIndex = (state.activeIndex < 0) ? 0 : state.activeIndex
-      state.activeIndex = (state.activeIndex > (nrTeaserItems - 1)) ? (nrTeaserItems - 1) : state.activeIndex
+      state.activeIndex = (touchMove.x < touchStart.x) ? state.activeIndex + 1 : state.activeIndex - 1 // Left or right swipe
+      state.activeIndex = (state.activeIndex < 0) ? 0 : state.activeIndex // were at slide-position 0
+      state.activeIndex = (state.activeIndex > (nrTeaserItems - 1)) ? (nrTeaserItems - 1) : state.activeIndex // were at the last slide
 
       state.percentageDragged = 0
       state.startPos.x = -state.activeIndex
@@ -148,6 +154,7 @@ export default defineComponent({
 
       touchMove.x = e.touches[0].clientX
       touchMove.y = e.touches[0].clientY
+
       state.isDragging = true
     }
 
@@ -155,7 +162,7 @@ export default defineComponent({
       const el = teaserItemsWrapper.value
       state.windowProps = { width: (el) ? el.clientWidth : 0, height: (el) ? el.clientHeight : 0 }
 
-      updateTeaserPosition()
+      initTeaser()
     })
 
     return {
