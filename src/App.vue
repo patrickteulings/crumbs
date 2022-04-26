@@ -30,7 +30,7 @@ export default defineComponent({
     FloatingNavBar,
     Nav
   },
-  setup() {
+  setup () {
     const state: any = reactive({
       stateUser: computed(() => store.getters['userStore/getUser'])
     })
