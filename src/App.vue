@@ -1,5 +1,5 @@
 <template>
-  <div v-if='loading'>
+  <div v-if="loading">
     <div class="splashscreen">SPLASH</div>
   </div>
   <User></User>
@@ -9,7 +9,7 @@
       <component :is="Component" />
     </transition>
   </router-view>
-  <!-- <FloatingNavBar></FloatingNavBar> -->
+  <FloatingNavBar></FloatingNavBar>
 </template>
 
 <script lang="ts">
@@ -30,7 +30,7 @@ export default defineComponent({
     FloatingNavBar,
     Nav
   },
-  setup () {
+  setup() {
     const state: any = reactive({
       stateUser: computed(() => store.getters['userStore/getUser'])
     })
@@ -96,9 +96,7 @@ export default defineComponent({
 // beforeEnter
 </script>
 
-<style lang="scss" src='./assets/styles/styles.scss'>
-
-
+<style lang="scss" src="./assets/styles/styles.scss">
 .slide-enter-active {
   transition: all 0.3s ease-out;
 }

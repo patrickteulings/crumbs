@@ -6,7 +6,7 @@
     <div class="teaser__image" :style="getImageStyle">
       <slot name="image"></slot>
     </div>
-     <div class="teaser__action" :style="getActionStyle">
+    <div class="teaser__action" :style="getActionStyle">
       <slot name="action"></slot>
     </div>
   </div>
@@ -28,15 +28,13 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const state = reactive({
-    })
+    const state = reactive({})
     // Props
     const parallaxPercentage = toRef(props, 'percentage')
     const slideIDOffset = toRef(props, 'slideID')
 
-
     const getLocalPercentage = computed((): number => {
-      return (parallaxPercentage.value + (slideIDOffset.value * 100))
+      return parallaxPercentage.value + slideIDOffset.value * 100
     })
 
     // Style getters for Parallax
@@ -71,6 +69,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
