@@ -63,7 +63,6 @@ export default defineComponent({
     }
 
     const setActiveItem = (payload: Record<string, unknown>) => {
-      console.log('setActiveItem', payload)
       state.data.items.forEach((item: any) => {
         item.active = (item.label === payload.label)
       })

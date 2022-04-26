@@ -11,6 +11,8 @@
       <router-link to="/about" @click="handleMenuClose">About</router-link>
       <router-link to="/login" @click="handleMenuClose">Login</router-link>
       <router-link to="/add" @click="handleMenuClose">Add</router-link>
+      <router-link to="/crumbtemplate/edit/MBu5KPTRS8pONjfzoA2p" @click="handleMenuClose">Edit Crumb Template</router-link>
+      <router-link to="/crumb/category/a5njuGQP6MV9XL5PSv74" @click="handleMenuClose">Category Tobacco</router-link>
     </nav>
   </div>
 </template>

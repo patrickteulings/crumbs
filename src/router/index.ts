@@ -57,16 +57,4 @@ const router = createRouter({
   }
 })
 
-router.beforeEach(async (to, from) => {
-  const canAccess = store.getters['userStore/getUser']
-  if (to.meta.requiresAuth && !canAccess) {
-    return {
-      path: '/home',
-      // save the location we were at to come back later
-      query: { redirect: to.fullPath }
-    }
-  }
-  // if (!canAccess && (to.name !== 'Home' && to.name !== 'Login')) return '/Home'
-})
-
 export default router
